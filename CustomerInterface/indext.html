@@ -1,23 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Lounge Royale | Luxury Beauty Services</title>
+    <title>The Lounge Royale | Customer Booking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header class="site-header Object-fade-in">
         <div class="header-container">
             <div class="logo">
-                <a href="#">THE LOUNGE<span>Royale</span></a>
+                <a href="#home" data-route="home">THE LOUNGE<span>Royale</span></a>
             </div>
-            
-            <button class="menu-toggle" aria-label="Toggle navigationMenu">
+
+            <button class="menu-toggle" aria-label="Toggle navigation menu">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -25,52 +24,166 @@
 
             <nav class="nav-menu">
                 <ul class="nav-links">
-                    <li><a href="#" class="active">HOME</a></li>
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">SERVICES</a></li>
-                    <li><a href="#">APPOINTMENT</a></li>
+                    <li><a href="#home" data-route="home" class="active">HOME</a></li>
+                    <li><a href="#about" data-route="about">ABOUT</a></li>
+                    <li><a href="#appointments" data-route="appointments">APPOINTMENT</a></li>
+                    <li><a href="#profile" data-route="profile">PROFILE</a></li>
                 </ul>
                 <div class="nav-auth">
-                    <a href="#" class="btn-login">LOGIN/REGISTER</a>
+                    <a href="#auth" data-route="auth" class="btn-login" id="authButton">LOGIN/REGISTER</a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <main class="hero-section">
-        <div class="ribbon-container Object-fade-in">
-            <svg class="gold-ribbon" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#cfac62" />
-                        <stop offset="20%" stop-color="#edd69a" />
-                        <stop offset="40%" stop-color="#b38938" />
-                        <stop offset="60%" stop-color="#edd69a" />
-                        <stop offset="80%" stop-color="#9a7428" />
-                        <stop offset="100%" stop-color="#dfc284" />
-                    </linearGradient>
-                    <filter id="drop-shadow">
-                        <feDropShadow dx="2" dy="15" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
-                    </filter>
-                </defs>
-                <path d="M -50,700 C 100,650 300,350 450,550 C 600,750 850,500 1000,450 C 1200,400 1350,600 1550,680 L 1550,730 C 1350,650 1200,460 1000,510 C 850,560 600,810 450,610 C 300,410 100,710 -50,760 Z" 
-                      fill="url(#gold-gradient)" filter="url(#drop-shadow)"/>
-            </svg>
-        </div>
-
-        <div class="hero-container">
-            <div class="hero-content Object-fade-in">
-                <h1 class="hero-title">WELCOME TO <br>THE LOUNGE ROYALE</h1>
-                <p class="hero-description">Experience luxury beauty services in a comfortable and elegant setting</p>
-                <a href="#" class="btn-cta">BOOK YOUR APPOINTMENT HERE</a>
+    <main>
+        <section id="home" class="page hero-section active-page" data-page="home">
+            <div class="ribbon-container Object-fade-in">
+                <svg class="gold-ribbon" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#cfac62" />
+                            <stop offset="20%" stop-color="#edd69a" />
+                            <stop offset="40%" stop-color="#b38938" />
+                            <stop offset="60%" stop-color="#edd69a" />
+                            <stop offset="80%" stop-color="#9a7428" />
+                            <stop offset="100%" stop-color="#dfc284" />
+                        </linearGradient>
+                        <filter id="drop-shadow">
+                            <feDropShadow dx="2" dy="15" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+                        </filter>
+                    </defs>
+                    <path d="M -50,700 C 100,650 300,350 450,550 C 600,750 850,500 1000,450 C 1200,400 1350,600 1550,680 L 1550,730 C 1350,650 1200,460 1000,510 C 850,560 600,810 450,610 C 300,410 100,710 -50,760 Z" fill="url(#gold-gradient)" filter="url(#drop-shadow)"/>
+                </svg>
             </div>
 
-            <div class="hero-image-wrapper Object-fade-in">
-                <img src="https://i.ibb.co/vYm6Ygq/elegant-nails-hands.png" alt="Elegant Manicured Hands" class="hero-image">
+            <div class="hero-container">
+                <div class="hero-content Object-fade-in">
+                    <h1 class="hero-title">WELCOME TO <br>THE LOUNGE ROYALE</h1>
+                    <p class="hero-description">Experience luxury beauty services in a comfortable and elegant setting.</p>
+                    <a href="#appointments" data-route="appointments" class="btn-cta">BOOK YOUR APPOINTMENT HERE</a>
+                </div>
+
+                <div class="hero-image-wrapper Object-fade-in">
+                    <img src="https://i.ibb.co/vYm6Ygq/elegant-nails-hands.png" alt="Elegant manicured hands" class="hero-image">
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="about" class="page content-page" data-page="about">
+            <div class="content-grid about-grid">
+                <div>
+                    <p class="eyebrow">ABOUT US</p>
+                    <h2>Beauty care with a calm, royal finish.</h2>
+                    <p>The Lounge Royale is a customer-first beauty lounge for nails, lashes, waxing, foot care, kiddie services, and deluxe packages. Every appointment is organized so guests can choose a service, set a date, and manage bookings from one place.</p>
+                    <div class="feature-list">
+                        <span>Luxury hand and foot services</span>
+                        <span>Secure customer sessions</span>
+                        <span>Editable booking records</span>
+                        <span>Movable location marker</span>
+                    </div>
+                </div>
+                <div class="about-panel">
+                    <img src="assets/references/about us_customer.png" alt="The Lounge Royale customer about page reference">
+                </div>
+            </div>
+        </section>
+
+        <section id="auth" class="page auth-page" data-page="auth">
+            <div class="auth-shell" id="authShell">
+                <div class="auth-forms">
+                    <form id="signinForm" class="auth-form">
+                        <p class="eyebrow">SIGN IN</p>
+                        <h2>Welcome back</h2>
+                        <label>Email<input type="email" name="email" required autocomplete="email"></label>
+                        <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+                        <button type="submit" class="btn-cta form-button">SIGN IN</button>
+                        <button type="button" class="text-button" data-auth-mode="register">Create a customer account</button>
+                    </form>
+
+                    <form id="registerForm" class="auth-form register-form">
+                        <p class="eyebrow">REGISTER</p>
+                        <h2>Create account</h2>
+                        <label>Full Name<input type="text" name="name" required autocomplete="name"></label>
+                        <label>Email<input type="email" name="email" required autocomplete="email"></label>
+                        <label>Mobile Number<input type="tel" name="phone" required autocomplete="tel"></label>
+                        <label>Password<input type="password" name="password" required minlength="6" autocomplete="new-password"></label>
+                        <button type="submit" class="btn-cta form-button">REGISTER</button>
+                        <button type="button" class="text-button" data-auth-mode="signin">I already have an account</button>
+                    </form>
+                </div>
+                <div class="auth-art">
+                    <h3>THE LOUNGE Royale</h3>
+                    <p>Book, update, and track your beauty appointments with your customer account.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="profile" class="page content-page" data-page="profile">
+            <div class="dashboard-grid">
+                <form id="profileForm" class="profile-card">
+                    <p class="eyebrow">PROFILE</p>
+                    <h2 id="profileGreeting">Customer Profile</h2>
+                    <label>Full Name<input type="text" name="name" required></label>
+                    <label>Email<input type="email" name="email" required readonly></label>
+                    <label>Mobile Number<input type="tel" name="phone" required></label>
+                    <button type="submit" class="btn-cta form-button">SAVE PROFILE</button>
+                    <button type="button" id="logoutButton" class="outline-button">LOG OUT</button>
+                </form>
+
+                <div class="profile-card">
+                    <p class="eyebrow">YOUR BOOKINGS</p>
+                    <h2>Appointment Records</h2>
+                    <div id="profileBookings" class="booking-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="appointments" class="page content-page" data-page="appointments">
+            <div class="appointment-layout">
+                <div>
+                    <p class="eyebrow">APPOINTMENT PAGE</p>
+                    <h2>Choose your service category</h2>
+                    <div class="service-grid" id="serviceGrid"></div>
+                </div>
+                <aside class="map-panel">
+                    <p class="eyebrow">LOCATION</p>
+                    <h3>Move the map or drag the pin</h3>
+                    <div class="map-canvas" id="mapCanvas" aria-label="Movable salon location map">
+                        <div class="map-streets"></div>
+                        <button class="map-pin" id="mapPin" aria-label="Drag salon pin">Lounge Royale</button>
+                    </div>
+                    <div class="map-actions">
+                        <button type="button" id="resetMap" class="outline-button">RESET MAP</button>
+                        <span id="mapCoords">Pin: 50%, 50%</span>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="servicePage" class="page content-page" data-page="servicePage">
+            <div class="service-booking-grid">
+                <form id="bookingForm" class="profile-card">
+                    <p class="eyebrow" id="serviceEyebrow">SERVICE</p>
+                    <h2 id="serviceTitle">Book Service</h2>
+                    <input type="hidden" name="editingId" id="editingId">
+                    <label>Service<select name="service" id="serviceSelect" required></select></label>
+                    <label>Date<input type="date" name="date" required></label>
+                    <label>Time<input type="time" name="time" required></label>
+                    <label>Notes<textarea name="notes" rows="4" placeholder="Preferred staff, nail color, or special request"></textarea></label>
+                    <button type="submit" class="btn-cta form-button" id="bookingSubmit">CREATE BOOKING</button>
+                    <button type="button" id="cancelEdit" class="outline-button hidden">CANCEL EDIT</button>
+                </form>
+                <div class="profile-card">
+                    <p class="eyebrow">CRUD RECORDS</p>
+                    <h2>Manage Bookings</h2>
+                    <div id="bookingList" class="booking-list"></div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
 </body>
 </html>
