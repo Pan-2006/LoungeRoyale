@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="https://loungeroyale.local/customer" xmlns:lr="https://loungeroyale.local/customer" elementFormDefault="qualified">
+    <xs:element name="appointment" type="lr:AppointmentType"/>
+
+    <xs:complexType name="AppointmentType">
+        <xs:sequence>
+            <xs:element name="customerEmail" type="xs:string"/>
+            <xs:element name="customerName" type="xs:string" minOccurs="0"/>
+            <xs:element name="category" type="xs:string"/>
+            <xs:element name="service" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="time" type="xs:string"/>
+            <xs:element name="notes" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+    </xs:complexType>
+</xs:schema>

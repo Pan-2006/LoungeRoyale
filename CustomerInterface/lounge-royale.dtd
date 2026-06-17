@@ -1,0 +1,9 @@
+﻿<!ELEMENT appointment (customerEmail, customerName?, category, service, date, time, notes?)>
+<!ATTLIST appointment id CDATA #REQUIRED>
+<!ELEMENT customerEmail (#PCDATA)>
+<!ELEMENT customerName (#PCDATA)>
+<!ELEMENT category (#PCDATA)>
+<!ELEMENT service (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT time (#PCDATA)>
+<!ELEMENT notes (#PCDATA)>
