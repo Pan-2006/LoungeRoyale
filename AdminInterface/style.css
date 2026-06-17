@@ -1,0 +1,241 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #282626;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  background: #282626;
+}
+
+.logo {
+  color: #d6a938;
+  width: 180px;
+  line-height: 1;
+}
+
+.logo small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-left: 12px;
+}
+
+.logo span {
+  display: block;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 34px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+nav button {
+  background: #ffba55;
+  color: black;
+  border: none;
+  border-radius: 18px;
+  padding: 18px 28px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.about-page {
+  min-height: calc(100vh - 82px);
+  display: grid;
+  grid-template-columns: 64% 36%;
+  padding: 90px 65px 70px;
+  background: #282626;
+}
+
+.about-text h1 {
+  margin: 0 0 55px;
+  color: #e8d98b;
+  font-family: Georgia, serif;
+  font-size: 68px;
+  font-weight: 400;
+  letter-spacing: -1px;
+}
+
+.about-text h2 {
+  margin: 0 0 25px;
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.about-text p {
+  max-width: 760px;
+  margin: 0;
+  color: white;
+  font-size: 28px;
+  line-height: 1.08;
+  letter-spacing: 1px;
+}
+
+.faq-title {
+  margin-top: 60px !important;
+  margin-bottom: 28px !important;
+}
+
+.faq {
+  margin-bottom: 34px;
+}
+
+.faq h3 {
+  margin: 0;
+  color: white;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.faq p {
+  max-width: 760px;
+  font-size: 27px;
+  line-height: 1.08;
+}
+
+.location {
+  margin-top: 58px;
+}
+
+.location h2 {
+  margin-bottom: 8px;
+  font-size: 34px;
+}
+
+.location p {
+  font-size: 27px;
+}
+
+.about-images {
+  position: relative;
+  min-height: 1000px;
+}
+
+.hands-img {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  width: 355px;
+  max-width: 90%;
+}
+
+.map-box {
+  position: absolute;
+  right: 0;
+  top: 845px;
+  width: 390px;
+  height: 390px;
+  overflow: hidden;
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(67, 150, 190, 0.16) 2px, transparent 2px),
+    linear-gradient(rgba(67, 150, 190, 0.16) 2px, transparent 2px),
+    #eef3f2;
+  background-size: 42px 42px;
+  color: #444;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.map-label {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: white;
+  color: #2d8cff;
+  padding: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pin {
+  font-size: 70px;
+}
+
+.map-box strong {
+  font-size: 25px;
+  color: #dd4942;
+}
+
+.map-box span {
+  color: #4285f4;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+  .navbar {
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 15px;
+    padding: 18px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .about-page {
+    grid-template-columns: 1fr;
+    padding: 50px 25px;
+  }
+
+  .about-text h1 {
+    font-size: 48px;
+  }
+
+  .about-text p,
+  .faq p,
+  .location p {
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .faq h3 {
+    font-size: 21px;
+  }
+
+  .about-images {
+    min-height: auto;
+    display: grid;
+    gap: 25px;
+    margin-top: 35px;
+  }
+
+  .hands-img,
+  .map-box {
+    position: static;
+    width: 100%;
+    max-width: 390px;
+  }
+}
