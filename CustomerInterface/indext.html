@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lounge Royale | Luxury Beauty Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header class="site-header Object-fade-in">
+        <div class="header-container">
+            <div class="logo">
+                <a href="#">THE LOUNGE<span>Royale</span></a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="Toggle navigationMenu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+
+            <nav class="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#" class="active">HOME</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="#">SERVICES</a></li>
+                    <li><a href="#">APPOINTMENT</a></li>
+                </ul>
+                <div class="nav-auth">
+                    <a href="#" class="btn-login">LOGIN/REGISTER</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="hero-section">
+        <div class="ribbon-container Object-fade-in">
+            <svg class="gold-ribbon" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#cfac62" />
+                        <stop offset="20%" stop-color="#edd69a" />
+                        <stop offset="40%" stop-color="#b38938" />
+                        <stop offset="60%" stop-color="#edd69a" />
+                        <stop offset="80%" stop-color="#9a7428" />
+                        <stop offset="100%" stop-color="#dfc284" />
+                    </linearGradient>
+                    <filter id="drop-shadow">
+                        <feDropShadow dx="2" dy="15" stdDeviation="10" flood-color="#000000" flood-opacity="0.6"/>
+                    </filter>
+                </defs>
+                <path d="M -50,700 C 100,650 300,350 450,550 C 600,750 850,500 1000,450 C 1200,400 1350,600 1550,680 L 1550,730 C 1350,650 1200,460 1000,510 C 850,560 600,810 450,610 C 300,410 100,710 -50,760 Z" 
+                      fill="url(#gold-gradient)" filter="url(#drop-shadow)"/>
+            </svg>
+        </div>
+
+        <div class="hero-container">
+            <div class="hero-content Object-fade-in">
+                <h1 class="hero-title">WELCOME TO <br>THE LOUNGE ROYALE</h1>
+                <p class="hero-description">Experience luxury beauty services in a comfortable and elegant setting</p>
+                <a href="#" class="btn-cta">BOOK YOUR APPOINTMENT HERE</a>
+            </div>
+
+            <div class="hero-image-wrapper Object-fade-in">
+                <img src="https://i.ibb.co/vYm6Ygq/elegant-nails-hands.png" alt="Elegant Manicured Hands" class="hero-image">
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
