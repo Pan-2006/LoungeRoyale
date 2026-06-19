@@ -54,18 +54,24 @@ img                   { display: block; }
 /* Transparent, absolutely positioned — click zones over the Canva image */
 .hotspot {
     position: absolute;
-    z-index: 10;
+    z-index: 40;
     border: 0;
     padding: 0;
-    background: rgba(214, 166, 61, 0.00); /* invisible by default */
+    background: transparent;
     color: transparent;
     cursor: pointer;
     border-radius: 3px;
 }
 .hotspot:hover,
+.hotspot:active,
+.hotspot:focus {
+    background: transparent;
+    outline: none;
+}
+
 .hotspot:focus-visible {
-    background: rgba(242, 217, 141, 0.15);
-    outline: 2px solid rgba(242, 217, 141, 0.6);
+    outline: 2px solid rgba(242, 217, 141, 0.35);
+    outline-offset: -2px;
 }
 
 /* ============================================================
@@ -365,3 +371,5 @@ img                   { display: block; }
     .appointments-overlay { font-size: 9px; }
     .booking-overlay { padding: 3% 4%; }
 }
+
+

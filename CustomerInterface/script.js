@@ -516,7 +516,7 @@ function init() {
 
     // Global click delegation for hotspots
     document.addEventListener('click', (event) => {
-        const target = event.target.closest('[data-page]');
+        const target = event.target.closest('button[data-page], a[data-page]');
         if (!target) return;
         event.preventDefault();
         route(target.dataset.page, target.dataset.service);
@@ -536,3 +536,4 @@ function init() {
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
