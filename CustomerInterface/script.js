@@ -1,468 +1,538 @@
-﻿const DB_KEY = 'loungeRoyaleCustomerDB';
-const SESSION_KEY = 'loungeRoyaleSession';
+﻿/* ============================================================
+   THE LOUNGE ROYALE — Customer Interface JavaScript
+   LocalStorage DB · SessionStorage session · SOAP XML log
+   ============================================================ */
 
+'use strict';
+
+// ── Constants ─────────────────────────────────────────────────
+const DB_KEY      = 'loungeRoyaleCanvaFaithfulDB';
+const SESSION_KEY = 'loungeRoyaleCanvaFaithfulSession';
+const SALON_OPEN  = '09:00';
+const SALON_CLOSE = '20:00';
+
+// ── Service groups definition ─────────────────────────────────
 const serviceGroups = {
     hand: {
-        label: 'Hand Services',
-        image: 'assets/references/appointment_HandServices_customer.png',
-        services: ['Classic Manicure', 'Gel Manicure', 'Soft Gel Extension', 'Nail Art Add-on']
+        label:    'Hand Services',
+        design:   'assets/references/appointment_HandServices_customer.png',
+        services: [
+            'Classic Manicure',
+            'Only Breathable Manicure',
+            'Overlay Gel Manicure',
+            'Royal Signature Hand Spa',
+            'Hand Paraffin Wax',
+        ],
     },
     foot: {
-        label: 'Foot Services',
-        image: 'assets/references/appointment_FootServices_customer.png',
-        services: ['Classic Pedicure', 'Gel Pedicure', 'Foot Spa', 'Callus Care']
+        label:    'Foot Services',
+        design:   'assets/references/appointment_FootServices_customer.png',
+        services: [
+            'Classic Pedicure',
+            'Only Breathable Pedicure',
+            'Classic Gel Pedicure',
+            'Royal Signature Foot Spa',
+            'Foot Paraffin Wax',
+        ],
     },
     wax: {
-        label: 'Wax Services',
-        image: 'assets/references/appointment_WaxServices_customer.png',
-        services: ['Eyebrow Wax', 'Underarm Wax', 'Half Leg Wax', 'Full Leg Wax']
+        label:    'Wax Services',
+        design:   'assets/references/appointment_WaxServices_customer.png',
+        services: [
+            'Eyebrow Wax',
+            'Underarm Wax',
+            'Arm Wax',
+            'Half Leg Wax',
+            'Full Leg Wax',
+            'Upper/Lower Lip Wax',
+            'Brazilian Wax',
+        ],
     },
     eyelash: {
-        label: 'Eyelash Services',
-        image: 'assets/references/appointment_EyelashServices_customer.png',
-        services: ['Classic Lash Extension', 'Hybrid Lash Extension', 'Volume Lash Extension', 'Lash Lift']
+        label:    'Eyelash Services',
+        design:   'assets/references/appointment_EyelashServices_customer.png',
+        services: [
+            'Eyelash Perming',
+            'Eyelash Extension',
+            'Eyelash Retouch',
+            'Eyelash Removal',
+        ],
     },
     kiddie: {
-        label: 'Kiddie & Other',
-        image: 'assets/references/appointment_Kiddie&Other_customer.png',
-        services: ['Kiddie Manicure', 'Kiddie Pedicure', 'Polish Change', 'Nail Removal']
+        label:    'Kiddie and Other Services',
+        design:   'assets/references/appointment_Kiddie&Other_customer.png',
+        services: [
+            'Kiddie Manicure',
+            'Kiddie Pedicure',
+            'Kiddie Hand Spa with Manicure',
+            'Kiddie Foot Spa with Pedicure',
+            'Ear Candling',
+            'Nail Art',
+        ],
     },
     deluxe: {
-        label: 'Deluxe Package',
-        image: 'assets/references/appointment_DeluxePackage_customer.png',
-        services: ['Royale Hand & Foot Package', 'Deluxe Spa Package', 'Lash and Nail Package', 'Full Beauty Package']
-    }
+        label:    'Royale Deluxe Packages',
+        design:   'assets/references/appointment_DeluxePackage_customer.png',
+        services: [
+            'Classic Royale 1',
+            'Only Breathable Royale',
+            'Deluxe Royale 1',
+            'Deluxe Royale 4',
+            'Deluxe Royale 5',
+        ],
+    },
 };
 
-let activeServiceKey = 'hand';
+// ── DOM helpers ───────────────────────────────────────────────
+const $  = (sel) => document.querySelector(sel);
+const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+let activeService = 'hand';
 let toastTimer;
 
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
-
+// ── LocalStorage DB helpers ───────────────────────────────────
 function readDB() {
-    const fallback = { users: [], appointments: [], xmlLogs: [] };
     try {
-        return JSON.parse(localStorage.getItem(DB_KEY)) || fallback;
-    } catch (error) {
-        return fallback;
-    }
+        const db = JSON.parse(localStorage.getItem(DB_KEY));
+        if (db && Array.isArray(db.users) && Array.isArray(db.appointments) && Array.isArray(db.soapLogs)) {
+            return db;
+        }
+    } catch (_) { /* ignore */ }
+    return { users: [], appointments: [], soapLogs: [] };
 }
 
 function writeDB(db) {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
 }
 
-function currentSession() {
-    try {
-        return JSON.parse(sessionStorage.getItem(SESSION_KEY));
-    } catch (error) {
-        return null;
-    }
+// ── Session helpers ───────────────────────────────────────────
+function currentUser() {
+    const email = sessionStorage.getItem(SESSION_KEY);
+    return email ? (readDB().users.find((u) => u.email === email) || null) : null;
 }
 
-function setSession(email) {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email, startedAt: new Date().toISOString() }));
+// ── Utilities ─────────────────────────────────────────────────
+function todayValue() {
+    return new Date().toISOString().split('T')[0];
 }
 
-function getCurrentUser() {
-    const session = currentSession();
-    if (!session) return null;
-    return readDB().users.find((user) => user.email === session.email) || null;
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// ── Toast ─────────────────────────────────────────────────────
 function showToast(message) {
-    const toast = $('#toast');
-    toast.textContent = message;
-    toast.classList.add('show');
+    const el = $('#toast');
+    el.textContent = message;
+    el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
 }
 
-function routeTo(page, serviceKey) {
-    const targetPage = page === 'service' ? 'servicePage' : page;
-    $$('.page').forEach((section) => section.classList.toggle('active-page', section.dataset.page === targetPage));
-    $$('.nav-links a').forEach((link) => link.classList.toggle('active', link.dataset.route === page || (page === 'service' && link.dataset.route === 'appointments')));
+function setMessage(id, message) {
+    const el = $(id);
+    if (!el) return;
+    el.textContent = message;
+    el.classList.toggle('show', Boolean(message));
+}
 
-    if (page === 'profile' && !getCurrentUser()) {
-        showToast('Please sign in before viewing your profile.');
-        routeTo('auth');
-        return;
+// ── Router ────────────────────────────────────────────────────
+function route(page = 'home', serviceKey, updateHash = true) {
+    // Handle logout
+    if (page === 'logout') {
+        sessionStorage.removeItem(SESSION_KEY);
+        showToast('You have been signed out.');
+        page = 'home';
     }
 
-    if (page === 'service') {
-        openService(serviceKey || activeServiceKey);
+    // Guard protected pages
+    if (['profile', 'appointments', 'service'].includes(page) && !currentUser()) {
+        showToast('Please sign in first.');
+        page = 'signin';
     }
 
-    updateHeader();
+    // Fall back to home if page doesn't exist
+    if (!document.querySelector(`[data-page="${page}"]`)) page = 'home';
+
+    // Switch visible section
+    $$('.screen-page').forEach((s) => s.classList.toggle('active', s.dataset.page === page));
+
+    // Page-specific setup
+    if (page === 'service')  openService(serviceKey || activeService);
+    if (page === 'profile')  renderProfile();
+
+    // Update URL hash
+    if (updateHash) history.replaceState(null, '', `#${page}`);
+
+    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function updateHeader() {
-    const user = getCurrentUser();
-    const authButton = $('#authButton');
-    authButton.textContent = user ? 'LOG OUT' : 'LOGIN/REGISTER';
-    authButton.dataset.route = user ? 'logout' : 'auth';
-    authButton.href = user ? '#logout' : '#auth';
+// ── SOAP XML helpers ──────────────────────────────────────────
+function xmlEscape(value) {
+    return String(value ?? '').replace(/[<>&'"]/g, (ch) => ({
+        '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;',
+    }[ch]));
 }
 
-function closeMobileMenu() {
-    $('.menu-toggle').classList.remove('active');
-    $('.nav-menu').classList.remove('active');
+function soapEnvelope(action, appt) {
+    return (
+        `<?xml version="1.0" encoding="UTF-8"?>\n` +
+        `<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lr="https://loungeroyale.local/customer">\n` +
+        `  <soap:Body>\n` +
+        `    <lr:${action}>\n` +
+        `      <lr:appointment id="${xmlEscape(appt.id)}">\n` +
+        `        <lr:customerEmail>${xmlEscape(appt.email)}</lr:customerEmail>\n` +
+        `        <lr:customerName>${xmlEscape(appt.name)}</lr:customerName>\n` +
+        `        <lr:category>${xmlEscape(appt.category)}</lr:category>\n` +
+        `        <lr:service>${xmlEscape(appt.service)}</lr:service>\n` +
+        `        <lr:date>${xmlEscape(appt.date)}</lr:date>\n` +
+        `        <lr:time>${xmlEscape(appt.time)}</lr:time>\n` +
+        `        <lr:notes>${xmlEscape(appt.notes)}</lr:notes>\n` +
+        `        <lr:technician>${xmlEscape(appt.technician)}</lr:technician>\n` +
+        `        <lr:status>${xmlEscape(appt.status)}</lr:status>\n` +
+        `      </lr:appointment>\n` +
+        `    </lr:${action}>\n` +
+        `  </soap:Body>\n` +
+        `</soap:Envelope>`
+    );
 }
 
-function buildServiceCards() {
-    const grid = $('#serviceGrid');
-    grid.innerHTML = Object.entries(serviceGroups).map(([key, group]) => `
-        <button class="service-card" type="button" data-service-key="${key}">
-            <img src="${group.image}" alt="${group.label}">
-            <span>${group.label}</span>
-        </button>
-    `).join('');
-
-    grid.addEventListener('click', (event) => {
-        const card = event.target.closest('.service-card');
-        if (!card) return;
-        if (!getCurrentUser()) {
-            showToast('Please sign in first so your booking can be saved.');
-            routeTo('auth');
-            return;
-        }
-        routeTo('service', card.dataset.serviceKey);
+function logSoap(db, action, appt) {
+    db.soapLogs.push({
+        id:        crypto.randomUUID(),
+        action,
+        createdAt: new Date().toISOString(),
+        soap:      soapEnvelope(action, appt),
     });
 }
 
+// ── Open service booking page ─────────────────────────────────
 function openService(key) {
-    activeServiceKey = serviceGroups[key] ? key : 'hand';
-    const group = serviceGroups[activeServiceKey];
-    $('#serviceEyebrow').textContent = group.label.toUpperCase();
-    $('#serviceTitle').textContent = `Book ${group.label}`;
-    $('#serviceSelect').innerHTML = group.services.map((service) => `<option value="${service}">${service}</option>`).join('');
-    $('#bookingForm').reset();
-    $('#editingId').value = '';
-    $('#bookingSubmit').textContent = 'CREATE BOOKING';
-    $('#cancelEdit').classList.add('hidden');
-    renderBookings();
-}
+    activeService = serviceGroups[key] ? key : 'hand';
+    const group   = serviceGroups[activeService];
 
-function requireUser() {
-    const user = getCurrentUser();
-    if (!user) {
-        showToast('Please sign in first.');
-        routeTo('auth');
-        return null;
+    // Swap Canva reference image
+    const img  = $('#serviceDesign');
+    img.src    = group.design;
+    img.alt    = `${group.label} booking page`;
+
+    // Reset form
+    const form = $('#bookingForm');
+    form.reset();
+    form.elements.id.value   = '';
+    form.elements.date.min   = todayValue();
+
+    // Populate service select
+    form.elements.service.innerHTML =
+        '<option value="">— Choose a service —</option>' +
+        group.services.map((s) => `<option value="${s}">${s}</option>`).join('');
+
+    // Pre-fill name/email from session
+    const user = currentUser();
+    if (user) {
+        form.elements.name.value  = user.name;
+        form.elements.email.value = user.email;
     }
-    return user;
+
+    setMessage('#bookingMessage', '');
 }
 
-function xmlEscape(value) {
-    return String(value || '').replace(/[<>&'"]/g, (char) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[char]));
+// ── Booking validation ────────────────────────────────────────
+function validateBooking(form, editingId) {
+    const email = form.elements.email.value.trim().toLowerCase();
+    const date  = form.elements.date.value;
+    const time  = form.elements.time.value;
+
+    if (!form.elements.name.value.trim())     return 'Please enter your name.';
+    if (!isValidEmail(email))                 return 'Please enter a valid email address.';
+    if (!form.elements.service.value)         return 'Please choose a service.';
+    if (!date)                                return 'Please select a date.';
+    if (date < todayValue())                  return 'Please choose today or a future date.';
+    if (!time)                                return 'Please select a time.';
+    if (time < SALON_OPEN || time > SALON_CLOSE)
+        return 'Please choose a time between 9:00 AM and 8:00 PM.';
+
+    const duplicate = readDB().appointments.some(
+        (a) => a.id !== editingId && a.date === date && a.time === time && a.status !== 'Cancelled'
+    );
+    return duplicate ? 'That date and time slot is already booked.' : '';
 }
 
-function createSoapEnvelope(action, appointment) {
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:lr="https://loungeroyale.local/customer">\n  <soap:Body>\n    <lr:${action}>\n      <lr:appointment id="${xmlEscape(appointment.id)}">\n        <lr:customerEmail>${xmlEscape(appointment.email)}</lr:customerEmail>\n        <lr:category>${xmlEscape(appointment.category)}</lr:category>\n        <lr:service>${xmlEscape(appointment.service)}</lr:service>\n        <lr:date>${xmlEscape(appointment.date)}</lr:date>\n        <lr:time>${xmlEscape(appointment.time)}</lr:time>\n        <lr:notes>${xmlEscape(appointment.notes)}</lr:notes>\n      </lr:appointment>\n    </lr:${action}>\n  </soap:Body>\n</soap:Envelope>`;
-}
-
-function saveXmlLog(action, appointment, db = readDB()) {
-    db.xmlLogs.push({ id: crypto.randomUUID(), action, createdAt: new Date().toISOString(), soap: createSoapEnvelope(action, appointment) });
-    writeDB(db);
-}
-
-function renderBookings() {
-    const user = getCurrentUser();
-    const list = $('#bookingList');
-    const profileList = $('#profileBookings');
-    const db = readDB();
-    const bookings = user ? db.appointments.filter((item) => item.email === user.email) : [];
-
-    const html = bookings.length ? bookings.map((item) => `
-        <article class="booking-item">
-            <strong>${item.service}</strong>
-            <span>${item.category} • ${item.date} at ${item.time}</span>
-            <span>${item.notes || 'No notes added.'}</span>
-            <div class="booking-actions">
-                <button type="button" data-edit-id="${item.id}">Edit</button>
-                <button type="button" data-delete-id="${item.id}">Delete</button>
-            </div>
-        </article>
-    `).join('') : '<p>No appointments yet.</p>';
-
-    if (list) list.innerHTML = html;
-    if (profileList) profileList.innerHTML = html;
-}
-
-function fillProfile() {
-    const user = getCurrentUser();
-    if (!user) return;
-    const form = $('#profileForm');
-    form.name.value = user.name;
-    form.email.value = user.email;
-    form.phone.value = user.phone;
-    $('#profileGreeting').textContent = `${user.name}'s Profile`;
-    renderBookings();
-}
-
-function handleRegister(event) {
+// ── Sign-up handler ───────────────────────────────────────────
+function handleSignup(event) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const email = form.email.value.trim().toLowerCase();
-    const db = readDB();
+    const form            = event.currentTarget;
+    const name            = form.elements.name.value.trim();
+    const email           = form.elements.email.value.trim().toLowerCase();
+    const password        = form.elements.password.value;
+    const confirmPassword = form.elements.confirmPassword.value;
+    const db              = readDB();
 
-    if (db.users.some((user) => user.email === email)) {
-        showToast('This email is already registered.');
-        return;
-    }
+    let error = '';
+    if (!name)                                   error = 'Please enter your name.';
+    else if (!isValidEmail(email))               error = 'Please enter a valid email address.';
+    else if (password.length < 6)                error = 'Password must be at least 6 characters.';
+    else if (password !== confirmPassword)       error = 'Passwords do not match.';
+    else if (db.users.some((u) => u.email === email)) error = 'This email is already registered.';
+
+    if (error) { setMessage('#signupMessage', error); return; }
 
     db.users.push({
-        id: crypto.randomUUID(),
-        name: form.name.value.trim(),
+        id:        crypto.randomUUID(),
+        name,
         email,
-        phone: form.phone.value.trim(),
-        password: form.password.value,
-        role: 'customer',
-        createdAt: new Date().toISOString()
+        password,
+        createdAt: new Date().toISOString(),
     });
     writeDB(db);
-    setSession(email);
-    showToast('Registration complete. You are signed in.');
+    sessionStorage.setItem(SESSION_KEY, email);
     form.reset();
-    routeTo('profile');
-    fillProfile();
+    showToast('Account created. Welcome!');
+    route('profile');
 }
 
+// ── Sign-in handler ───────────────────────────────────────────
 function handleSignin(event) {
     event.preventDefault();
-    const form = event.currentTarget;
-    const email = form.email.value.trim().toLowerCase();
-    const user = readDB().users.find((item) => item.email === email && item.password === form.password.value);
+    const form  = event.currentTarget;
+    const email = form.elements.email.value.trim().toLowerCase();
+    const user  = readDB().users.find(
+        (u) => u.email === email && u.password === form.elements.password.value
+    );
 
-    if (!user) {
-        showToast('Invalid email or password.');
-        return;
-    }
+    if (!user) { setMessage('#signinMessage', 'Incorrect email or password.'); return; }
 
-    setSession(email);
-    showToast('Signed in successfully.');
+    sessionStorage.setItem(SESSION_KEY, email);
     form.reset();
-    routeTo('profile');
-    fillProfile();
+    showToast('Signed in successfully.');
+    route('profile');
 }
 
-function handleProfileSave(event) {
+// ── Booking submit handler ────────────────────────────────────
+function handleBooking(event) {
     event.preventDefault();
-    const user = requireUser();
-    if (!user) return;
+    const user = currentUser();
+    if (!user) { route('signin'); return; }
 
-    const db = readDB();
-    const record = db.users.find((item) => item.email === user.email);
-    record.name = event.currentTarget.name.value.trim();
-    record.phone = event.currentTarget.phone.value.trim();
-    writeDB(db);
-    showToast('Profile updated.');
-    fillProfile();
-}
+    const form  = event.currentTarget;
+    const id    = form.elements.id.value || crypto.randomUUID();
+    const error = validateBooking(form, id);
+    if (error) { setMessage('#bookingMessage', error); return; }
 
-function handleBookingSave(event) {
-    event.preventDefault();
-    const user = requireUser();
-    if (!user) return;
+    const db    = readDB();
+    const existing = db.appointments.findIndex((a) => a.id === id && a.email === user.email);
 
-    const form = event.currentTarget;
-    const db = readDB();
-    const editingId = $('#editingId').value;
-    const appointment = {
-        id: editingId || crypto.randomUUID(),
-        email: user.email,
-        customerName: user.name,
-        category: serviceGroups[activeServiceKey].label,
-        service: form.service.value,
-        date: form.date.value,
-        time: form.time.value,
-        notes: form.notes.value.trim(),
-        updatedAt: new Date().toISOString()
+    const appt = {
+        id,
+        email:      user.email,
+        name:       form.elements.name.value.trim(),
+        category:   serviceGroups[activeService].label,
+        service:    form.elements.service.value,
+        date:       form.elements.date.value,
+        time:       form.elements.time.value,
+        notes:      form.elements.notes.value.trim(),
+        technician: form.elements.technician.value || 'To Be Assigned',
+        status:     'Confirmed',
+        updatedAt:  new Date().toISOString(),
     };
 
-    if (editingId) {
-        const index = db.appointments.findIndex((item) => item.id === editingId && item.email === user.email);
-        if (index >= 0) db.appointments[index] = { ...db.appointments[index], ...appointment };
-        saveXmlLog('UpdateAppointment', appointment, db);
-        showToast('Booking updated.');
+    if (existing >= 0) {
+        db.appointments[existing] = { ...db.appointments[existing], ...appt };
+        logSoap(db, 'UpdateAppointment', appt);
+        showToast('Appointment updated.');
     } else {
-        appointment.createdAt = new Date().toISOString();
-        db.appointments.push(appointment);
-        saveXmlLog('CreateAppointment', appointment, db);
-        showToast('Booking created.');
+        appt.createdAt = new Date().toISOString();
+        db.appointments.push(appt);
+        logSoap(db, 'CreateAppointment', appt);
+        showToast('Booking confirmed!');
     }
 
     writeDB(db);
-    openService(activeServiceKey);
-    fillProfile();
+    route('profile');
 }
 
-function handleBookingAction(event) {
-    const editButton = event.target.closest('[data-edit-id]');
-    const deleteButton = event.target.closest('[data-delete-id]');
-    const user = requireUser();
-    if (!user || (!editButton && !deleteButton)) return;
+// ── Formatting helpers ────────────────────────────────────────
+function formatDate(value) {
+    return value
+        ? new Date(`${value}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
+        : '';
+}
 
-    const db = readDB();
+function formatTime(value) {
+    if (!value) return '';
+    const [h, m] = value.split(':').map(Number);
+    const d = new Date();
+    d.setHours(h, m || 0, 0, 0);
+    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
 
-    if (editButton) {
-        const booking = db.appointments.find((item) => item.id === editButton.dataset.editId && item.email === user.email);
-        if (!booking) return;
-        const key = Object.keys(serviceGroups).find((groupKey) => serviceGroups[groupKey].label === booking.category) || activeServiceKey;
-        routeTo('service', key);
-        $('#serviceEyebrow').textContent = booking.category.toUpperCase();
-        $('#serviceTitle').textContent = `Edit ${booking.category}`;
-        $('#editingId').value = booking.id;
-        $('#bookingForm').service.value = booking.service;
-        $('#bookingForm').date.value = booking.date;
-        $('#bookingForm').time.value = booking.time;
-        $('#bookingForm').notes.value = booking.notes;
-        $('#bookingSubmit').textContent = 'UPDATE BOOKING';
-        $('#cancelEdit').classList.remove('hidden');
+function appointmentDateTime(appt) {
+    return new Date(`${appt.date}T${appt.time || '00:00'}`);
+}
+
+// ── Profile render ────────────────────────────────────────────
+function renderProfile() {
+    const user = currentUser();
+    if (!user) return;
+
+    $('#profileName').textContent  = user.name  || 'CUSTOMER';
+    $('#profileEmail').textContent = user.email || '';
+
+    const upcoming = readDB().appointments
+        .filter((a) => a.email === user.email)
+        .sort((a, b) => appointmentDateTime(a) - appointmentDateTime(b))
+        .filter((a) => appointmentDateTime(a) >= new Date() && a.status !== 'Cancelled')
+        .slice(0, 5);
+
+    $('#appointmentsTable').innerHTML = upcoming.length
+        ? upcoming.map((a) =>
+            `<div class="appointment-row" title="${xmlEscape(a.notes || 'No notes')}">` +
+                `<span>${formatDate(a.date)}</span>` +
+                `<span>${formatTime(a.time)}</span>` +
+                `<span>${xmlEscape(a.service)}</span>` +
+                `<span>${xmlEscape(a.technician)}</span>` +
+                `<span>${xmlEscape(a.status)}</span>` +
+                `<span>` +
+                    `<button type="button" data-edit="${a.id}">Edit</button> ` +
+                    `<button type="button" data-delete="${a.id}">Cancel</button>` +
+                `</span>` +
+            `</div>`
+        ).join('')
+        : '<div class="appointment-row"><span colspan="6">No upcoming appointments.</span></div>';
+}
+
+// ── Profile actions (edit / cancel) ──────────────────────────
+function handleProfileAction(event) {
+    const editBtn   = event.target.closest('[data-edit]');
+    const deleteBtn = event.target.closest('[data-delete]');
+    if (!editBtn && !deleteBtn) return;
+
+    const user = currentUser();
+    const db   = readDB();
+
+    if (deleteBtn) {
+        if (!confirm('Are you sure you want to cancel this appointment?')) return;
+        const appt = db.appointments.find(
+            (a) => a.id === deleteBtn.dataset.delete && a.email === user.email
+        );
+        if (appt) {
+            appt.status    = 'Cancelled';
+            appt.updatedAt = new Date().toISOString();
+            logSoap(db, 'CancelAppointment', appt);
+            writeDB(db);
+            showToast('Appointment cancelled.');
+            renderProfile();
+        }
         return;
     }
 
-    const id = deleteButton.dataset.deleteId;
-    const booking = db.appointments.find((item) => item.id === id && item.email === user.email);
-    db.appointments = db.appointments.filter((item) => !(item.id === id && item.email === user.email));
-    writeDB(db);
-    if (booking) saveXmlLog('DeleteAppointment', booking, db);
-    showToast('Booking deleted.');
-    renderBookings();
+    // Edit: pre-fill booking form
+    const appt = db.appointments.find(
+        (a) => a.id === editBtn.dataset.edit && a.email === user.email
+    );
+    if (!appt) return;
+
+    const key = Object.keys(serviceGroups).find(
+        (k) => serviceGroups[k].label === appt.category
+    ) || 'hand';
+
+    route('service', key);
+
+    // Wait for openService to populate the select, then fill values
+    requestAnimationFrame(() => {
+        const form = $('#bookingForm');
+        form.elements.id.value         = appt.id;
+        form.elements.name.value       = appt.name;
+        form.elements.email.value      = appt.email;
+        form.elements.service.value    = appt.service;
+        form.elements.date.value       = appt.date;
+        form.elements.time.value       = appt.time;
+        form.elements.technician.value = appt.technician;
+        form.elements.notes.value      = appt.notes || '';
+    });
 }
 
-function logout() {
-    sessionStorage.removeItem(SESSION_KEY);
-    updateHeader();
-    showToast('Signed out.');
-    routeTo('home');
-}
-
+// ── Interactive map (About page) ──────────────────────────────
 function setupMap() {
-    const canvas = $('#mapCanvas');
+    const map = $('#miniMap');
     const pin = $('#mapPin');
-    const coords = $('#mapCoords');
-    let dragging = null;
-    let startX = 0;
-    let startY = 0;
-    let mapX = 0;
-    let mapY = 0;
+    if (!map || !pin) return;
 
-    function setPin(clientX, clientY) {
-        const rect = canvas.getBoundingClientRect();
-        const x = Math.max(6, Math.min(94, ((clientX - rect.left) / rect.width) * 100));
-        const y = Math.max(12, Math.min(94, ((clientY - rect.top) / rect.height) * 100));
-        canvas.style.setProperty('--pin-x', `${x}%`);
-        canvas.style.setProperty('--pin-y', `${y}%`);
-        coords.textContent = `Pin: ${Math.round(x)}%, ${Math.round(y)}%`;
-        localStorage.setItem('loungeRoyaleMap', JSON.stringify({ x, y, mapX, mapY }));
-    }
+    let mode = '', lastX = 0, lastY = 0, mapX = 0, mapY = 0;
 
-    function setMap(dx, dy) {
-        mapX += dx;
-        mapY += dy;
-        canvas.style.setProperty('--map-x', `${mapX}px`);
-        canvas.style.setProperty('--map-y', `${mapY}px`);
-    }
-
-    canvas.addEventListener('pointerdown', (event) => {
-        dragging = event.target === pin ? 'pin' : 'map';
-        startX = event.clientX;
-        startY = event.clientY;
-        canvas.setPointerCapture(event.pointerId);
-        if (dragging === 'pin') setPin(event.clientX, event.clientY);
-    });
-
-    canvas.addEventListener('pointermove', (event) => {
-        if (!dragging) return;
-        if (dragging === 'pin') {
-            setPin(event.clientX, event.clientY);
-        } else {
-            setMap(event.clientX - startX, event.clientY - startY);
-            startX = event.clientX;
-            startY = event.clientY;
+    // Restore saved state
+    try {
+        const saved = JSON.parse(localStorage.getItem('loungeRoyaleMapState'));
+        if (saved) {
+            if (saved.x) map.style.setProperty('--pin-x', `${saved.x}%`);
+            if (saved.y) map.style.setProperty('--pin-y', `${saved.y}%`);
+            if (saved.mapX) { mapX = saved.mapX; map.style.setProperty('--map-x', `${mapX}px`); }
+            if (saved.mapY) { mapY = saved.mapY; map.style.setProperty('--map-y', `${mapY}px`); }
         }
-    });
+    } catch (_) { /* ignore */ }
 
-    canvas.addEventListener('pointerup', () => { dragging = null; });
-    canvas.addEventListener('pointercancel', () => { dragging = null; });
-
-    $('#resetMap').addEventListener('click', () => {
-        mapX = 0;
-        mapY = 0;
-        canvas.style.setProperty('--map-x', '0px');
-        canvas.style.setProperty('--map-y', '0px');
-        canvas.style.setProperty('--pin-x', '50%');
-        canvas.style.setProperty('--pin-y', '50%');
-        coords.textContent = 'Pin: 50%, 50%';
-        localStorage.removeItem('loungeRoyaleMap');
-    });
-
-    const saved = JSON.parse(localStorage.getItem('loungeRoyaleMap') || 'null');
-    if (saved) {
-        mapX = saved.mapX || 0;
-        mapY = saved.mapY || 0;
-        canvas.style.setProperty('--map-x', `${mapX}px`);
-        canvas.style.setProperty('--map-y', `${mapY}px`);
-        canvas.style.setProperty('--pin-x', `${saved.x}%`);
-        canvas.style.setProperty('--pin-y', `${saved.y}%`);
-        coords.textContent = `Pin: ${Math.round(saved.x)}%, ${Math.round(saved.y)}%`;
+    function movePin(clientX, clientY) {
+        const rect = map.getBoundingClientRect();
+        const x    = Math.max(5,  Math.min(95, ((clientX - rect.left)  / rect.width)  * 100));
+        const y    = Math.max(12, Math.min(95, ((clientY - rect.top)   / rect.height) * 100));
+        map.style.setProperty('--pin-x', `${x}%`);
+        map.style.setProperty('--pin-y', `${y}%`);
+        try {
+            localStorage.setItem('loungeRoyaleMapState', JSON.stringify({ x, y, mapX, mapY }));
+        } catch (_) { /* ignore */ }
     }
+
+    map.addEventListener('pointerdown', (e) => {
+        mode  = e.target === pin ? 'pin' : 'map';
+        lastX = e.clientX;
+        lastY = e.clientY;
+        map.setPointerCapture(e.pointerId);
+        if (mode === 'pin') movePin(e.clientX, e.clientY);
+    });
+
+    map.addEventListener('pointermove', (e) => {
+        if (!mode) return;
+        if (mode === 'pin') { movePin(e.clientX, e.clientY); return; }
+        mapX += e.clientX - lastX;
+        mapY += e.clientY - lastY;
+        lastX  = e.clientX;
+        lastY  = e.clientY;
+        map.style.setProperty('--map-x', `${mapX}px`);
+        map.style.setProperty('--map-y', `${mapY}px`);
+    });
+
+    map.addEventListener('pointerup',     () => { mode = ''; });
+    map.addEventListener('pointercancel', () => { mode = ''; });
 }
 
+// ── Initialise ────────────────────────────────────────────────
 function init() {
-    $('.menu-toggle').addEventListener('click', () => {
-        $('.menu-toggle').classList.toggle('active');
-        $('.nav-menu').classList.toggle('active');
-    });
-
-    document.addEventListener('click', (event) => {
-        const routeLink = event.target.closest('[data-route]');
-        if (!routeLink) return;
-        event.preventDefault();
-        closeMobileMenu();
-        const route = routeLink.dataset.route;
-        if (route === 'logout') {
-            logout();
-            return;
-        }
-        routeTo(route);
-        if (route === 'profile') fillProfile();
-    });
-
-    $$('[data-auth-mode]').forEach((button) => {
-        button.addEventListener('click', () => $('#authShell').classList.toggle('register-mode', button.dataset.authMode === 'register'));
-    });
-
-    $('#registerForm').addEventListener('submit', handleRegister);
-    $('#signinForm').addEventListener('submit', handleSignin);
-    $('#profileForm').addEventListener('submit', handleProfileSave);
-    $('#logoutButton').addEventListener('click', logout);
-    $('#bookingForm').addEventListener('submit', handleBookingSave);
-    $('#cancelEdit').addEventListener('click', () => openService(activeServiceKey));
-    $('#bookingList').addEventListener('click', handleBookingAction);
-    $('#profileBookings').addEventListener('click', handleBookingAction);
-
-    buildServiceCards();
     setupMap();
-    updateHeader();
-    fillProfile();
 
-    const hash = location.hash.replace('#', '');
-    if (hash && hash !== 'logout') routeTo(hash);
+    // Set date min on booking form
+    const dateInput = $('#bookingForm').elements.date;
+    if (dateInput) dateInput.min = todayValue();
 
-    window.addEventListener('scroll', () => {
-        if (window.innerWidth > 768) {
-            const ribbon = document.querySelector('.gold-ribbon');
-            if (ribbon) ribbon.style.transform = `translateY(${window.pageYOffset * 0.15}px)`;
-        }
+    // Global click delegation for hotspots
+    document.addEventListener('click', (event) => {
+        const target = event.target.closest('[data-page]');
+        if (!target) return;
+        event.preventDefault();
+        route(target.dataset.page, target.dataset.service);
     });
+
+    // Form submissions
+    $('#signupForm').addEventListener('submit', handleSignup);
+    $('#signinForm').addEventListener('submit', handleSignin);
+    $('#bookingForm').addEventListener('submit', handleBooking);
+
+    // Profile table actions (edit / cancel)
+    $('#appointmentsTable').addEventListener('click', handleProfileAction);
+
+    // Read initial page from URL hash
+    const initialPage = (location.hash || '').replace('#', '') || 'home';
+    route(initialPage, undefined, false);
 }
 
 document.addEventListener('DOMContentLoaded', init);
-
-
-
-

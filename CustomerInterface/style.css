@@ -1,758 +1,367 @@
-﻿* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+﻿/* ============================================================
+   THE LOUNGE ROYALE — Customer Interface CSS
+   Canva-Faithful Image-Overlay Implementation
+   ============================================================ */
 
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── Design tokens ── */
 :root {
-    --bg-dark: #121212;
-    --bg-charcoal: #1a1a1a;
-    --bg-panel: rgba(26, 26, 26, 0.86);
-    --color-cream: #f4ebd9;
-    --color-gold-light: #edd69a;
-    --color-gold-main: #cfa853;
-    --color-gold-dark: #9a7428;
-    --color-orange-gold: #f2b446;
-    --border-gold: rgba(237, 214, 154, 0.24);
-    --font-serif: 'Cormorant Garamond', Georgia, serif;
-    --font-sans: 'Montserrat', sans-serif;
-    --transition-smooth: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    --bg:         #101010;
+    --gold:       #d6a63d;
+    --gold-light: #f2d98d;
+    --cream:      #f5ecd2;
+    --ink:        #111111;
+    --panel:      rgba(255, 255, 255, 0.93);
+    --font:       Arial, Helvetica, sans-serif;
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: #ffffff;
-    font-family: var(--font-sans);
-    overflow-x: hidden;
-    min-height: 100vh;
+/* ── Base ── */
+html                  { background: var(--bg); }
+body                  { margin: 0; min-height: 100vh; background: var(--bg);
+                        color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+button, input, select, textarea { font: inherit; }
+button                { cursor: pointer; }
+img                   { display: block; }
+
+/* ── Page switching ── */
+.screen-page          { display: none; min-height: 100vh; }
+.screen-page.active   { display: block; }
+
+/* ── Canvas wrapper ── */
+/* Constrains width & provides the positioning context for all overlays */
+.design-canvas {
+    position: relative;
+    width: min(100%, 1366px);
+    margin: 0 auto;
+    background: #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-button,
-input,
-select,
-textarea {
-    font: inherit;
+/* ── Reference images ── */
+/* Fill 100% of canvas width; height follows natural aspect ratio */
+.page-design {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    pointer-events: none; /* clicks pass through to hotspots */
 }
 
-button,
-a {
+/* ── Hotspot buttons ── */
+/* Transparent, absolutely positioned — click zones over the Canva image */
+.hotspot {
+    position: absolute;
+    z-index: 10;
+    border: 0;
+    padding: 0;
+    background: rgba(214, 166, 61, 0.00); /* invisible by default */
+    color: transparent;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.hotspot:hover,
+.hotspot:focus-visible {
+    background: rgba(242, 217, 141, 0.15);
+    outline: 2px solid rgba(242, 217, 141, 0.6);
+}
+
+/* ============================================================
+   FORM OVERLAYS
+   All forms sit absolutely positioned over the Canva image.
+   Coordinates are tuned to match each reference page.
+   ============================================================ */
+
+/* ── Shared overlay defaults ── */
+.overlay-form,
+.booking-overlay {
+    position: absolute;
+    z-index: 20;
+    display: grid;
+    gap: 1.1%;
+}
+
+.overlay-form label,
+.booking-overlay label {
+    display: grid;
+    gap: 2px;
+    color: var(--gold-light);
+    font-size: clamp(6px, 0.68vw, 10px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.overlay-form input,
+.booking-overlay input,
+.booking-overlay select,
+.booking-overlay textarea {
+    width: 100%;
+    min-height: 18px;
+    border: 1px solid rgba(242, 217, 141, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--ink);
+    padding: 3px 7px;
+    font-size: clamp(7px, 0.75vw, 11px);
+    outline: none;
+    border-radius: 2px;
+}
+.booking-overlay select  { padding: 2px 6px; }
+.booking-overlay textarea { resize: none; min-height: 32px; }
+
+.overlay-form input:focus,
+.booking-overlay input:focus,
+.booking-overlay select:focus,
+.booking-overlay textarea:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(214, 166, 61, 0.22);
+}
+
+/* ── Form error / status message ── */
+.form-message {
+    display: none;
+    color: #ffe9a4;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(242, 217, 141, 0.3);
+    padding: 4px 7px;
+    font-size: clamp(7px, 0.68vw, 10px);
+    line-height: 1.35;
+    border-radius: 2px;
+}
+.form-message.show { display: block; }
+
+/* ── Submit buttons ── */
+.overlay-submit,
+.booking-submit {
+    border: 0;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #fff0b7, #e2ad3f 74%);
+    color: #050505;
+    min-height: 26px;
+    font-size: clamp(7px, 0.72vw, 11px);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
 }
-
-img {
-    max-width: 100%;
-    display: block;
+.overlay-submit:hover,
+.booking-submit:hover {
+    background: linear-gradient(135deg, #fff4c8, #e8b83d 74%);
 }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ── Sign-Up form (right panel of signup_signin_customer.png) ──
+   Panel starts ~38% from left, form content within it             */
+.signup-form {
+    left: 39.0%;
+    top: 36.5%;
+    width: 56.5%;
+    height: 29%;
+    grid-template-rows: auto auto auto auto auto auto 1fr;
+    gap: 0.9%;
+    padding: 0;
 }
+.signup-form label  { color: var(--gold-light); }
+.signup-form input  { background: rgba(255,255,255,0.97); }
 
-.Object-fade-in,
-.active-page .profile-card,
-.active-page .content-grid,
-.active-page .appointment-layout,
-.active-page .service-booking-grid,
-.active-page .auth-shell {
-    animation: fadeInUp 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+/* ── Sign-In form (left panel of signin_customer.png) ── */
+.signin-form {
+    left: 7.5%;
+    top: 38.0%;
+    width: 34.5%;
+    height: 24%;
+    grid-template-rows: auto auto auto 1fr;
+    gap: 3.5%;
 }
+.signin-form label { color: var(--gold-light); }
+.signin-form input { background: rgba(255,255,255,0.97); }
 
-.site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background: linear-gradient(to bottom, rgba(18,18,18,0.94) 0%, rgba(18,18,18,0.46) 100%);
-    backdrop-filter: blur(10px);
+/* ── Booking form (white left panel of every service page) ──
+   White panel: left=13.6%, top=13%, width=36.5%, height=81.7%
+   Form sits inside that panel                                    */
+.booking-overlay {
+    left: 14.0%;
+    top: 13.5%;
+    width: 36.0%;
+    height: 81.0%;
+    grid-template-rows: auto auto auto auto auto auto auto auto 1fr;
+    gap: 0.5%;
+    background: transparent;
+    padding: 2.5% 3.5%;
 }
-
-.header-container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 22px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo a {
-    font-family: var(--font-serif);
-    color: var(--color-gold-light);
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-}
-
-.logo span {
-    font-style: italic;
-    font-size: 1.1rem;
-    font-weight: 400;
-    letter-spacing: 4px;
-    margin-left: 15px;
-    color: var(--color-gold-main);
-}
-
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 34px;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 28px;
-}
-
-.nav-links a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 2px;
-    transition: var(--transition-smooth);
-    padding-bottom: 5px;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--color-gold-light);
-}
-
-.btn-login,
-.btn-cta,
-.outline-button,
-.text-button {
-    border: 0;
-    text-decoration: none;
-    transition: var(--transition-smooth);
-}
-
-.btn-login {
-    background-color: var(--color-orange-gold);
-    color: #000000;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    display: inline-block;
-    box-shadow: 0 4px 15px rgba(242, 180, 70, 0.2);
-}
-
-.btn-login:hover,
-.btn-cta:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.08);
-}
-
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 6px;
-    background: none;
-    border: none;
-    z-index: 1100;
-}
-
-.menu-toggle .bar {
-    width: 28px;
-    height: 2px;
-    background-color: var(--color-gold-light);
-    transition: var(--transition-smooth);
-}
-
-.page {
-    display: none;
-    min-height: 100vh;
-    padding: 116px 40px 54px;
-}
-
-.active-page {
-    display: block;
-}
-
-.hero-section {
-    position: relative;
-    display: none;
-    align-items: center;
-    background-color: var(--bg-charcoal);
-    overflow: hidden;
-    padding-top: 80px;
-}
-
-.hero-section.active-page {
-    display: flex;
-}
-
-.hero-container {
-    max-width: 1440px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: 55% 45%;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-}
-
-.hero-content {
-    max-width: 680px;
-}
-
-.hero-title,
-.content-page h2,
-.auth-form h2,
-.profile-card h2 {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    color: var(--color-gold-light);
-    letter-spacing: 1px;
-}
-
-.hero-title {
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    line-height: 1.15;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-}
-
-.hero-description,
-.content-page p,
-.auth-art p {
-    font-size: 1rem;
-    font-weight: 300;
-    color: #ffffff;
-    line-height: 1.7;
-    letter-spacing: 0.3px;
-}
-
-.hero-description {
-    margin-bottom: 40px;
-    max-width: 500px;
-}
-
-.btn-cta {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-gold-light) 52%, var(--color-gold-main) 100%);
-    color: #000000;
-    padding: 18px 34px;
-    border-radius: 40px;
-    font-size: 0.86rem;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
-}
-
-.hero-image-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    height: 100%;
-}
-
-.hero-image {
-    max-height: 85vh;
-    object-fit: contain;
-    transform: translateY(40px);
-}
-
-.ribbon-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-}
-
-.gold-ribbon {
-    width: 100%;
-    height: 100%;
-}
-
-.content-page {
-    background:
-        radial-gradient(circle at 16% 24%, rgba(207, 168, 83, 0.12), transparent 24%),
-        linear-gradient(135deg, #111 0%, #1b1b1b 58%, #151515 100%);
-}
-
-.content-grid,
-.dashboard-grid,
-.appointment-layout,
-.service-booking-grid {
-    max-width: 1180px;
-    margin: 0 auto;
-    display: grid;
-    gap: 28px;
-}
-
-.content-grid,
-.dashboard-grid,
-.service-booking-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
-    align-items: start;
-}
-
-.about-grid {
-    align-items: center;
-}
-
-.content-page h2,
-.auth-form h2,
-.profile-card h2 {
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    line-height: 1.1;
-    margin-bottom: 20px;
-}
-
-.eyebrow {
-    color: var(--color-orange-gold) !important;
-    font-size: 0.78rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 2.4px !important;
-    margin-bottom: 12px;
-}
-
-.feature-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 28px;
-}
-
-.feature-list span,
-.profile-card,
-.auth-shell,
-.map-panel,
-.about-panel {
-    border: 1px solid var(--border-gold);
-    background: var(--bg-panel);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
-}
-
-.feature-list span {
-    padding: 14px;
-    border-radius: 8px;
-    color: var(--color-cream);
-    font-size: 0.86rem;
-}
-
-.about-panel,
-.profile-card,
-.map-panel {
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.about-panel img {
-    width: 100%;
-    height: 520px;
-    object-fit: cover;
-    object-position: top center;
-}
-
-.auth-page {
-    background: linear-gradient(135deg, #111 0%, #202020 100%);
-}
-
-.auth-shell {
-    max-width: 960px;
-    min-height: 560px;
-    margin: 0 auto;
-    border-radius: 8px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
-}
-
-.auth-forms {
-    position: relative;
-    min-height: 560px;
-    overflow: hidden;
-}
-
-.auth-form {
-    position: absolute;
-    inset: 0;
-    padding: 46px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 16px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.register-form {
-    transform: translateX(100%);
-    opacity: 0;
-}
-
-.auth-shell.register-mode .auth-form:first-child {
-    transform: translateX(-100%);
-    opacity: 0;
-}
-
-.auth-shell.register-mode .register-form {
-    transform: translateX(0);
-    opacity: 1;
-}
-
-.auth-art {
-    min-height: 100%;
-    padding: 48px 34px;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    background:
-        linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.72)),
-        url('assets/references/signup_signin_customer.png') center/cover;
-}
-
-.auth-art h3 {
-    font-family: var(--font-serif);
-    color: var(--color-gold-light);
-    font-size: 2.6rem;
-    line-height: 1;
-    margin-bottom: 14px;
-}
-
-label {
-    display: grid;
-    gap: 8px;
-    color: var(--color-cream);
-    font-size: 0.82rem;
-    letter-spacing: 0.8px;
-}
-
-input,
-select,
-textarea {
-    width: 100%;
-    border: 1px solid rgba(237, 214, 154, 0.24);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    padding: 13px 14px;
-    outline: none;
-}
-
-select option {
+.booking-overlay label   { color: #1a1a1a; font-size: clamp(6px, 0.62vw, 9px); }
+.booking-overlay input,
+.booking-overlay select,
+.booking-overlay textarea {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(100, 90, 60, 0.35);
     color: #111;
 }
-
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: var(--color-gold-light);
-    box-shadow: 0 0 0 3px rgba(237, 214, 154, 0.12);
-}
-
-.form-button {
+.booking-submit {
+    align-self: end;
     width: 100%;
-    margin-top: 8px;
+    margin-top: 2px;
 }
 
-.text-button {
-    background: transparent;
-    color: var(--color-gold-light);
-    padding: 8px;
+/* ============================================================
+   PROFILE PAGE OVERLAYS
+   ============================================================ */
+
+/* Customer name — gold/cream large text */
+.profile-name {
+    position: absolute;
+    z-index: 20;
+    left: 6.0%;
+    top: 27.5%;
+    width: 55%;
+    color: var(--cream);
+    font-size: clamp(11px, 1.4vw, 20px);
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    pointer-events: none;
 }
 
-.outline-button {
-    display: inline-flex;
-    justify-content: center;
+/* Email below name */
+.profile-email {
+    position: absolute;
+    z-index: 20;
+    left: 6.0%;
+    top: 33.5%;
+    width: 55%;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: clamp(8px, 0.85vw, 12px);
+    pointer-events: none;
+}
+
+/* Appointment records table (overlaid on the golden table area) */
+.appointments-overlay {
+    position: absolute;
+    z-index: 20;
+    left: 4.0%;
+    top: 44.5%;
+    width: 92%;
+    height: 50%;
+    color: #1a0f00;
+    font-size: clamp(6px, 0.70vw, 10px);
+    font-weight: 700;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.appointment-row {
+    display: grid;
+    grid-template-columns: 18% 13% 25% 16% 12% 16%;
     align-items: center;
-    border: 1px solid var(--color-gold-main);
-    border-radius: 40px;
-    background: transparent;
-    color: var(--color-gold-light);
-    padding: 13px 20px;
-    font-size: 0.82rem;
-    letter-spacing: 1px;
+    min-height: 26px;
+    gap: 3px;
+    text-transform: uppercase;
+    padding: 2px 4px;
+    border-bottom: 1px solid rgba(20, 10, 0, 0.12);
+}
+.appointment-row:last-child { border-bottom: none; }
+
+.appointment-row button {
+    border: 1px solid rgba(20, 15, 2, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.28);
+    color: #1a0f00;
+    font-size: inherit;
+    font-weight: 800;
+    padding: 2px 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.appointment-row button:hover {
+    background: rgba(255, 255, 255, 0.5);
 }
 
-.outline-button:hover,
-.text-button:hover {
-    background: rgba(237, 214, 154, 0.1);
-}
-
-.profile-card,
-.map-panel {
-    padding: 28px;
-}
-
-.profile-card form,
-.profile-card {
-    display: grid;
-    gap: 16px;
-}
-
-.appointment-layout {
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.75fr);
-}
-
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 26px;
-}
-
-.service-card {
-    min-height: 170px;
-    border: 1px solid var(--border-gold);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    background: #222;
-    color: #fff;
-    text-align: left;
-}
-
-.service-card img {
+/* ============================================================
+   INTERACTIVE MAP (About page)
+   ============================================================ */
+.map-overlay {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.46;
-    transition: var(--transition-smooth);
-}
-
-.service-card span {
-    position: absolute;
-    left: 18px;
-    right: 18px;
-    bottom: 18px;
-    color: var(--color-gold-light);
-    font-family: var(--font-serif);
-    font-size: 1.6rem;
-    line-height: 1;
-    z-index: 2;
-}
-
-.service-card:hover img {
-    transform: scale(1.05);
-    opacity: 0.62;
-}
-
-.map-canvas {
-    height: 360px;
-    margin-top: 18px;
-    border-radius: 8px;
+    z-index: 15;
     overflow: hidden;
-    position: relative;
-    background: #1f2a24;
-    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 6px;
+    cursor: grab;
     touch-action: none;
+    background: #eef1ee;
+    border: 1px solid rgba(0,0,0,0.2);
 }
+.map-overlay:active { cursor: grabbing; }
 
-.map-streets {
+.map-grid {
     position: absolute;
-    inset: -160px;
+    inset: -80%;
     background:
-        linear-gradient(35deg, transparent 45%, rgba(255,255,255,0.16) 46%, rgba(255,255,255,0.16) 51%, transparent 52%),
-        linear-gradient(105deg, transparent 44%, rgba(242,180,70,0.2) 45%, rgba(242,180,70,0.2) 48%, transparent 49%),
-        linear-gradient(0deg, transparent 48%, rgba(255,255,255,0.12) 49%, rgba(255,255,255,0.12) 51%, transparent 52%),
-        linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.12) 49%, rgba(255,255,255,0.12) 51%, transparent 52%);
-    background-size: 260px 260px, 310px 310px, 86px 86px, 86px 86px;
+        linear-gradient(28deg, transparent 47%, rgba(255,255,255,0.85) 48%, rgba(255,255,255,0.85) 51%, transparent 52%),
+        linear-gradient(96deg, transparent 47%, rgba(141,188,209,0.65) 48%, rgba(141,188,209,0.65) 51%, transparent 52%),
+        linear-gradient(0deg, transparent 49%, rgba(180,180,180,0.45) 50%, transparent 51%),
+        linear-gradient(90deg, transparent 49%, rgba(180,180,180,0.45) 50%, transparent 51%),
+        #eef1ee;
+    background-size: 160px 160px, 210px 210px, 46px 46px, 46px 46px, auto;
     transform: translate(var(--map-x, 0px), var(--map-y, 0px));
+    pointer-events: none;
 }
 
 .map-pin {
     position: absolute;
-    left: var(--pin-x, 50%);
-    top: var(--pin-y, 50%);
-    transform: translate(-50%, -100%);
+    left: var(--pin-x, 55%);
+    top:  var(--pin-y, 47%);
+    width: 16px;
+    height: 16px;
     border: 0;
-    border-radius: 999px 999px 999px 0;
-    background: var(--color-orange-gold);
-    color: #111;
-    padding: 14px 16px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+    border-radius: 50% 50% 50% 0;
+    background: #d92735;
+    transform: translate(-50%, -100%) rotate(-45deg);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    z-index: 5;
 }
 
-.map-actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-top: 14px;
-    color: var(--color-cream);
-    font-size: 0.8rem;
-}
-
-.booking-list {
-    display: grid;
-    gap: 12px;
-    max-height: 520px;
-    overflow: auto;
-    padding-right: 4px;
-}
-
-.booking-item {
-    border: 1px solid rgba(237, 214, 154, 0.18);
-    border-radius: 8px;
-    padding: 14px;
-    background: rgba(255,255,255,0.06);
-    display: grid;
-    gap: 9px;
-}
-
-.booking-item strong {
-    color: var(--color-gold-light);
-}
-
-.booking-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.booking-actions button {
-    border: 1px solid rgba(237, 214, 154, 0.28);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--color-cream);
-    padding: 8px 12px;
-    font-size: 0.75rem;
-}
-
-.booking-actions button:hover {
-    border-color: var(--color-gold-light);
-}
-
-.hidden {
-    display: none !important;
-}
-
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
 .toast {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 2000;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1000;
     max-width: 320px;
-    padding: 14px 18px;
+    padding: 11px 16px;
     border-radius: 8px;
-    background: var(--color-orange-gold);
-    color: #111;
-    font-weight: 700;
+    background: var(--gold);
+    color: #080808;
+    font-size: 13px;
+    font-weight: 800;
     transform: translateY(140%);
     opacity: 0;
-    transition: var(--transition-smooth);
+    transition: 0.25s ease;
+    pointer-events: none;
 }
-
 .toast.show {
     transform: translateY(0);
     opacity: 1;
 }
 
-@media (max-width: 1024px) {
-    .hero-container,
-    .content-grid,
-    .dashboard-grid,
-    .appointment-layout,
-    .service-booking-grid,
-    .auth-shell {
-        grid-template-columns: 1fr;
-    }
-
-    .auth-art {
-        min-height: 260px;
-    }
+/* ============================================================
+   RESPONSIVE SCALING
+   On smaller screens the canvas scales down proportionally.
+   Hotspots & overlays are %-based so they scale automatically.
+   ============================================================ */
+@media (max-width: 900px) {
+    .design-canvas { width: 100%; }
 }
 
-@media (max-width: 768px) {
-    .header-container {
-        padding: 18px 22px;
-    }
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    .nav-menu {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: min(82vw, 360px);
-        height: 100vh;
-        background-color: rgba(18, 18, 18, 0.98);
-        backdrop-filter: blur(15px);
-        flex-direction: column;
-        justify-content: center;
-        gap: 34px;
-        transition: var(--transition-smooth);
-        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-    }
-
-    .nav-menu.active {
-        right: 0;
-    }
-
-    .nav-links {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .page {
-        padding: 104px 18px 36px;
-    }
-
-    .hero-container {
-        text-align: center;
-        padding: 40px 18px 0;
-        gap: 30px;
-    }
-
-    .hero-description {
-        margin: 0 auto 30px;
-    }
-
-    .btn-cta {
-        width: 100%;
-        max-width: 420px;
-    }
-
-    .hero-image-wrapper {
-        justify-content: center;
-    }
-
-    .hero-image {
-        max-height: 45vh;
-        transform: none;
-    }
-
-    .gold-ribbon {
-        transform: scale(1.2) translateY(50px);
-    }
-
-    .feature-list,
-    .service-grid {
+@media (max-width: 600px) {
+    .appointment-row {
         grid-template-columns: 1fr;
+        gap: 2px;
+        padding: 5px 2px;
+        border-bottom: 1px solid rgba(20,10,0,0.18);
     }
-
-    .auth-form {
-        padding: 30px 22px;
-    }
-
-    .map-actions,
-    .booking-actions {
-        align-items: stretch;
-        flex-direction: column;
-    }
+    .appointments-overlay { font-size: 9px; }
+    .booking-overlay { padding: 3% 4%; }
 }
-
-.menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.menu-toggle.active .bar:nth-child(2) { opacity: 0; }
-.menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }

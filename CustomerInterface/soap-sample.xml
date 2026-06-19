@@ -10,6 +10,8 @@
                 <lr:date>2026-06-18</lr:date>
                 <lr:time>14:00</lr:time>
                 <lr:notes>Preferred color: nude gold.</lr:notes>
+                <lr:technician>To Be Assigned</lr:technician>
+                <lr:status>Confirmed</lr:status>
             </lr:appointment>
         </lr:CreateAppointment>
     </soap:Body>
