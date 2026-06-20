@@ -1,17 +1,17 @@
-﻿/* ============================================================
-   THE LOUNGE ROYALE — Customer Interface JavaScript
-   LocalStorage DB · SessionStorage session · SOAP XML log
+/* ============================================================
+   THE LOUNGE ROYALE � Customer Interface JavaScript
+   LocalStorage DB � SessionStorage session � SOAP XML log
    ============================================================ */
 
 'use strict';
 
-// ── Constants ─────────────────────────────────────────────────
+// -- Constants -------------------------------------------------
 const DB_KEY      = 'loungeRoyaleCanvaFaithfulDB';
 const SESSION_KEY = 'loungeRoyaleCanvaFaithfulSession';
 const SALON_OPEN  = '09:00';
 const SALON_CLOSE = '20:00';
 
-// ── Service groups definition ─────────────────────────────────
+// -- Service groups definition ---------------------------------
 const serviceGroups = {
     hand: {
         label:    'Hand Services',
@@ -83,14 +83,14 @@ const serviceGroups = {
     },
 };
 
-// ── DOM helpers ───────────────────────────────────────────────
+// -- DOM helpers -----------------------------------------------
 const $  = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
 let activeService = 'hand';
 let toastTimer;
 
-// ── LocalStorage DB helpers ───────────────────────────────────
+// -- LocalStorage DB helpers -----------------------------------
 function readDB() {
     try {
         const db = JSON.parse(localStorage.getItem(DB_KEY));
@@ -105,13 +105,13 @@ function writeDB(db) {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
 }
 
-// ── Session helpers ───────────────────────────────────────────
+// -- Session helpers -------------------------------------------
 function currentUser() {
     const email = sessionStorage.getItem(SESSION_KEY);
     return email ? (readDB().users.find((u) => u.email === email) || null) : null;
 }
 
-// ── Utilities ─────────────────────────────────────────────────
+// -- Utilities -------------------------------------------------
 function todayValue() {
     return new Date().toISOString().split('T')[0];
 }
@@ -120,7 +120,7 @@ function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// ── Toast ─────────────────────────────────────────────────────
+// -- Toast -----------------------------------------------------
 function showToast(message) {
     const el = $('#toast');
     el.textContent = message;
@@ -136,7 +136,7 @@ function setMessage(id, message) {
     el.classList.toggle('show', Boolean(message));
 }
 
-// ── Router ────────────────────────────────────────────────────
+// -- Router ----------------------------------------------------
 function route(page = 'home', serviceKey, updateHash = true) {
     // Handle logout
     if (page === 'logout') {
@@ -168,7 +168,7 @@ function route(page = 'home', serviceKey, updateHash = true) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── SOAP XML helpers ──────────────────────────────────────────
+// -- SOAP XML helpers ------------------------------------------
 function xmlEscape(value) {
     return String(value ?? '').replace(/[<>&'"]/g, (ch) => ({
         '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;',
@@ -207,7 +207,7 @@ function logSoap(db, action, appt) {
     });
 }
 
-// ── Open service booking page ─────────────────────────────────
+// -- Open service booking page ---------------------------------
 function openService(key) {
     activeService = serviceGroups[key] ? key : 'hand';
     const group   = serviceGroups[activeService];
@@ -225,7 +225,7 @@ function openService(key) {
 
     // Populate service select
     form.elements.service.innerHTML =
-        '<option value="">— Choose a service —</option>' +
+        '<option value="">� Choose a service �</option>' +
         group.services.map((s) => `<option value="${s}">${s}</option>`).join('');
 
     // Pre-fill name/email from session
@@ -238,7 +238,7 @@ function openService(key) {
     setMessage('#bookingMessage', '');
 }
 
-// ── Booking validation ────────────────────────────────────────
+// -- Booking validation ----------------------------------------
 function validateBooking(form, editingId) {
     const email = form.elements.email.value.trim().toLowerCase();
     const date  = form.elements.date.value;
@@ -259,7 +259,7 @@ function validateBooking(form, editingId) {
     return duplicate ? 'That date and time slot is already booked.' : '';
 }
 
-// ── Sign-up handler ───────────────────────────────────────────
+// -- Sign-up handler -------------------------------------------
 function handleSignup(event) {
     event.preventDefault();
     const form            = event.currentTarget;
@@ -292,7 +292,7 @@ function handleSignup(event) {
     route('profile');
 }
 
-// ── Sign-in handler ───────────────────────────────────────────
+// -- Sign-in handler -------------------------------------------
 function handleSignin(event) {
     event.preventDefault();
     const form  = event.currentTarget;
@@ -309,7 +309,7 @@ function handleSignin(event) {
     route('profile');
 }
 
-// ── Booking submit handler ────────────────────────────────────
+// -- Booking submit handler ------------------------------------
 function handleBooking(event) {
     event.preventDefault();
     const user = currentUser();
@@ -352,7 +352,7 @@ function handleBooking(event) {
     route('profile');
 }
 
-// ── Formatting helpers ────────────────────────────────────────
+// -- Formatting helpers ----------------------------------------
 function formatDate(value) {
     return value
         ? new Date(`${value}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
@@ -371,7 +371,7 @@ function appointmentDateTime(appt) {
     return new Date(`${appt.date}T${appt.time || '00:00'}`);
 }
 
-// ── Profile render ────────────────────────────────────────────
+// -- Profile render --------------------------------------------
 function renderProfile() {
     const user = currentUser();
     if (!user) return;
@@ -402,7 +402,7 @@ function renderProfile() {
         : '<div class="appointment-row"><span colspan="6">No upcoming appointments.</span></div>';
 }
 
-// ── Profile actions (edit / cancel) ──────────────────────────
+// -- Profile actions (edit / cancel) --------------------------
 function handleProfileAction(event) {
     const editBtn   = event.target.closest('[data-edit]');
     const deleteBtn = event.target.closest('[data-delete]');
@@ -453,7 +453,7 @@ function handleProfileAction(event) {
     });
 }
 
-// ── Interactive map (About page) ──────────────────────────────
+// -- Interactive map (About page) ------------------------------
 function setupMap() {
     const map = $('#miniMap');
     const pin = $('#mapPin');
@@ -506,7 +506,7 @@ function setupMap() {
     map.addEventListener('pointercancel', () => { mode = ''; });
 }
 
-// ── Initialise ────────────────────────────────────────────────
+// -- Initialise ------------------------------------------------
 function init() {
     setupMap();
 
@@ -535,5 +535,9 @@ function init() {
     route(initialPage, undefined, false);
 }
 
+window.addEventListener('hashchange', () => {
+    const page = (location.hash || '').replace('#', '') || 'home';
+    route(page, undefined, false);
+});
 document.addEventListener('DOMContentLoaded', init);
 

@@ -1,12 +1,12 @@
-﻿/* ============================================================
-   THE LOUNGE ROYALE — Customer Interface CSS
+/* ============================================================
+   THE LOUNGE ROYALE � Customer Interface CSS
    Canva-Faithful Image-Overlay Implementation
    ============================================================ */
 
-/* ── Reset ── */
+/* -- Reset -- */
 *, *::before, *::after { box-sizing: border-box; }
 
-/* ── Design tokens ── */
+/* -- Design tokens -- */
 :root {
     --bg:         #101010;
     --gold:       #d6a63d;
@@ -17,7 +17,7 @@
     --font:       Arial, Helvetica, sans-serif;
 }
 
-/* ── Base ── */
+/* -- Base -- */
 html                  { background: var(--bg); }
 body                  { margin: 0; min-height: 100vh; background: var(--bg);
                         color: var(--cream); font-family: var(--font); overflow-x: hidden; }
@@ -25,11 +25,11 @@ button, input, select, textarea { font: inherit; }
 button                { cursor: pointer; }
 img                   { display: block; }
 
-/* ── Page switching ── */
+/* -- Page switching -- */
 .screen-page          { display: none; min-height: 100vh; }
 .screen-page.active   { display: block; }
 
-/* ── Canvas wrapper ── */
+/* -- Canvas wrapper -- */
 /* Constrains width & provides the positioning context for all overlays */
 .design-canvas {
     position: relative;
@@ -40,7 +40,7 @@ img                   { display: block; }
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
-/* ── Reference images ── */
+/* -- Reference images -- */
 /* Fill 100% of canvas width; height follows natural aspect ratio */
 .page-design {
     display: block;
@@ -50,8 +50,8 @@ img                   { display: block; }
     pointer-events: none; /* clicks pass through to hotspots */
 }
 
-/* ── Hotspot buttons ── */
-/* Transparent, absolutely positioned — click zones over the Canva image */
+/* -- Hotspot buttons -- */
+/* Transparent, absolutely positioned � click zones over the Canva image */
 .hotspot {
     position: absolute;
     z-index: 40;
@@ -80,7 +80,7 @@ img                   { display: block; }
    Coordinates are tuned to match each reference page.
    ============================================================ */
 
-/* ── Shared overlay defaults ── */
+/* -- Shared overlay defaults -- */
 .overlay-form,
 .booking-overlay {
     position: absolute;
@@ -125,7 +125,7 @@ img                   { display: block; }
     box-shadow: 0 0 0 2px rgba(214, 166, 61, 0.22);
 }
 
-/* ── Form error / status message ── */
+/* -- Form error / status message -- */
 .form-message {
     display: none;
     color: #ffe9a4;
@@ -138,7 +138,7 @@ img                   { display: block; }
 }
 .form-message.show { display: block; }
 
-/* ── Submit buttons ── */
+/* -- Submit buttons -- */
 .overlay-submit,
 .booking-submit {
     border: 0;
@@ -157,33 +157,100 @@ img                   { display: block; }
     background: linear-gradient(135deg, #fff4c8, #e8b83d 74%);
 }
 
-/* ── Sign-Up form (right panel of signup_signin_customer.png) ──
-   Panel starts ~38% from left, form content within it             */
+/* -- Sign-Up form (right panel of signup_signin_customer.png) -- */
 .signup-form {
-    left: 39.0%;
-    top: 36.5%;
-    width: 56.5%;
-    height: 29%;
-    grid-template-rows: auto auto auto auto auto auto 1fr;
-    gap: 0.9%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
     padding: 0;
 }
-.signup-form label  { color: var(--gold-light); }
-.signup-form input  { background: rgba(255,255,255,0.97); }
-
-/* ── Sign-In form (left panel of signin_customer.png) ── */
-.signin-form {
-    left: 7.5%;
-    top: 38.0%;
-    width: 34.5%;
-    height: 24%;
-    grid-template-rows: auto auto auto 1fr;
-    gap: 3.5%;
+.signup-form label {
+    position: absolute;
+    display: block;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
 }
-.signin-form label { color: var(--gold-light); }
-.signin-form input { background: rgba(255,255,255,0.97); }
+.signup-form label:nth-of-type(1) { left: 39.0%; top: 37.5%; width: 55.8%; height: 4.8%; }
+.signup-form label:nth-of-type(2) { left: 39.0%; top: 47.0%; width: 55.8%; height: 4.8%; }
+.signup-form label:nth-of-type(3) { left: 39.0%; top: 56.5%; width: 55.8%; height: 4.8%; }
+.signup-form label:nth-of-type(4) { left: 39.0%; top: 66.0%; width: 55.8%; height: 4.8%; }
+.signup-form input {
+    height: 100%;
+    min-height: 0;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(242, 217, 141, 0.42);
+    color: #fff8e7;
+    font-size: clamp(10px, 1.05vw, 15px);
+    padding: 0 12px;
+}
+.signup-form .overlay-submit {
+    position: absolute;
+    left: 39.0%;
+    top: 75.5%;
+    width: 55.8%;
+    height: 6.9%;
+    min-height: 0;
+    border-radius: 10px;
+}
+.signup-form #signupMessage {
+    position: absolute;
+    left: 39.0%;
+    top: 83.4%;
+    width: 55.8%;
+}
 
-/* ── Booking form (white left panel of every service page) ──
+/* -- Sign-In form (signin_customer.png) -- */
+.signin-form {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    padding: 0;
+}
+.signin-form label {
+    position: absolute;
+    display: block;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+}
+.signin-form label:nth-of-type(1) { left: 5.25%; top: 47.8%; width: 91.65%; height: 4.7%; }
+.signin-form label:nth-of-type(2) { left: 5.25%; top: 59.9%; width: 91.65%; height: 4.7%; }
+.signin-form input {
+    height: 100%;
+    min-height: 0;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(242, 217, 141, 0.36);
+    color: #fff8e7;
+    font-size: clamp(10px, 1.05vw, 15px);
+    padding: 0 12px;
+}
+.signin-form .overlay-submit {
+    position: absolute;
+    left: 4.85%;
+    top: 69.25%;
+    width: 92.35%;
+    height: 7.35%;
+    min-height: 0;
+    border: 0;
+    border-radius: 22px;
+    background: transparent;
+    color: transparent;
+}
+.signin-form .overlay-submit:hover { background: transparent; }
+.signin-form #signinMessage {
+    position: absolute;
+    left: 5.25%;
+    top: 78.0%;
+    width: 91.65%;
+}
+/* -- Booking form (white left panel of every service page) --
    White panel: left=13.6%, top=13%, width=36.5%, height=81.7%
    Form sits inside that panel                                    */
 .booking-overlay {
@@ -214,7 +281,7 @@ img                   { display: block; }
    PROFILE PAGE OVERLAYS
    ============================================================ */
 
-/* Customer name — gold/cream large text */
+/* Customer name � gold/cream large text */
 .profile-name {
     position: absolute;
     z-index: 20;
