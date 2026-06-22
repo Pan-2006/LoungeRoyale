@@ -11,22 +11,20 @@
 
         <!-- ===== HOME PAGE ===== -->
         <section class="screen-page active" id="page-home" data-page="home">
-            <div class="design-canvas tall-page">
-                <img class="page-design" src="assets/references/home page_customer.png" alt="The Lounge Royale customer homepage">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:0.8%;width:9.0%;height:4.8%"></button>
-                <!-- Navigation -->
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:49.8%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:55.2%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:61.6%;top:1.35%;width:7.0%;height:3.0%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:70.5%;top:1.35%;width:10.7%;height:3.0%"></button>
-                <button class="hotspot" data-page="auth"         aria-label="Login/Register" style="left:83.1%;top:0.9%;width:15.8%;height:3.6%"></button>
-                <!-- Book appointment CTA -->
-                <button class="hotspot" data-page="appointments" aria-label="Book your appointment" style="left:5.6%;top:27.0%;width:36.0%;height:4.9%"></button>
-                <!-- Service cards (bottom of page — tall image) -->
-                <button class="hotspot" data-page="service" data-service="hand"    aria-label="Nail Care"      style="left:2.4%;top:56.9%;width:21.0%;height:22.0%"></button>
-                <button class="hotspot" data-page="service" data-service="foot"    aria-label="Foot Spa"       style="left:27.2%;top:56.9%;width:21.0%;height:22.0%"></button>
-                <button class="hotspot" data-page="service" data-service="eyelash" aria-label="Lash Services"  style="left:51.8%;top:56.9%;width:21.0%;height:22.0%"></button>
-                <button class="hotspot" data-page="service" data-service="wax"     aria-label="Waxing"         style="left:76.5%;top:56.9%;width:21.0%;height:22.0%"></button>
+            <div class="design-canvas">
+                <img class="page-design" src="assets/references/home page_customer.png" alt="Home">
+                
+                <div class="auth-patch"></div>
+                <div class="user-status-banner"></div>
+
+                <button class="hotspot" data-page="home" style="left:49.8%;top:1.35%;width:5.2%;height:3.0%"></button>
+                <button class="hotspot" data-page="about" style="left:55.2%;top:1.35%;width:5.2%;height:3.0%"></button>
+                <button class="hotspot" data-page="services" style="left:60.8%;top:1.35%;width:5.2%;height:3.0%"></button>
+                <button class="hotspot" data-page="service" data-service="hand" style="left:66.2%;top:1.35%;width:7.4%;height:3.0%"></button>
+                
+                <button class="hotspot" data-page="auth" style="left:76.0%;top:1.35%;width:8.5%;height:7.0%"></button>
+                <button class="hotspot" data-page="signin" style="left:85.0%;top:1.35%;width:8.5%;height:7.0%"></button>
+                <button class="hotspot" data-page="service" data-service="hand" aria-label="Book an appointment" style="left: 41%; top: 70%; width: 18%; height: 8.5%;"></button>
             </div>
         </section>
 
@@ -41,10 +39,14 @@
                 <button class="hotspot" data-page="services"     aria-label="Services"    style="left:61.6%;top:1.35%;width:7.0%;height:3.0%"></button>
                 <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:70.5%;top:1.35%;width:10.7%;height:3.0%"></button>
                 <button class="hotspot" data-page="auth"         aria-label="Login/Register" style="left:83.1%;top:0.9%;width:15.8%;height:3.6%"></button>
-                <!-- Interactive map overlay (about page, lower half of tall image) -->
-                <div class="map-overlay" id="miniMap" style="left:65.6%;top:61.0%;width:28.8%;height:25.6%" aria-label="Movable salon location map">
-                    <div class="map-grid"></div>
-                    <button id="mapPin" class="map-pin" type="button" aria-label="Drag to reposition Lounge Royale map pin"></button>
+                <!-- Real Google Maps location embed -->
+                <div class="about-map-overlay">
+                    <iframe
+                        title="The Lounge Royale location on Google Maps"
+                        src="https://www.google.com/maps?q=The+Lounge+Royale,+20A+Sandoval+Ave,+Pasig,+Metro+Manila&output=embed"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </section>
@@ -80,29 +82,35 @@
                     <label>Full Name<input name="name" type="text" autocomplete="name" required></label>
                     <label>Email Address<input name="email" type="email" autocomplete="email" required></label>
                     <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" required></label>
-                    <label>Confirm Password<input name="confirmPassword" type="password" autocomplete="new-password" minlength="6" required></label>
                     <div class="form-message" id="signupMessage" role="alert"></div>
                     <button type="submit" class="overlay-submit">Sign Up</button>
                 </form>
                 <!-- Link to sign in -->
-                <button class="hotspot" data-page="signin" aria-label="Sign in to existing account" style="left:7.0%;top:71.0%;width:22.0%;height:5.0%"></button>
+                <button class="hotspot" data-page="signin" aria-label="Sign in to existing account" style="left:6.6%;top:65.2%;width:21.9%;height:6.6%"></button>
             </div>
         </section>
 
         <!-- ===== SIGN IN PAGE ===== -->
         <section class="screen-page" id="page-signin" data-page="signin">
             <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/signin_customer.png" alt="Customer sign in page">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:7.8%;top:5.5%;width:14.0%;height:25.5%"></button>
-                <!-- Sign-in form overlaid -->
+                <img class="page-design" src="assets/references/signin_customer.png" alt="Sign in to your Lounge Royale account">
+
+                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home"
+                        style="left:8.0%;top:5.0%;width:13.0%;height:25.0%"></button>
+
                 <form class="overlay-form signin-form" id="signinForm" novalidate>
-                    <label>Email Address<input name="email" type="email" autocomplete="email" required></label>
-                    <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+                    <label>Email address or username
+                        <input name="email" type="email" autocomplete="email" required>
+                    </label>
+                    <label>Password
+                        <input name="password" type="password" autocomplete="current-password" required>
+                    </label>
+                    <button type="button" class="signin-register-link" data-page="auth" aria-label="Go to the registration page">
+                        No account yet? <span>Sign up</span>
+                    </button>
                     <div class="form-message" id="signinMessage" role="alert"></div>
                     <button type="submit" class="overlay-submit">Sign In</button>
                 </form>
-                <!-- Link back to create account -->
-                <button class="hotspot" data-page="auth" aria-label="Create a customer account" style="left:6.5%;top:67.5%;width:24.0%;height:3.5%"></button>
             </div>
         </section>
 
@@ -118,11 +126,11 @@
                 <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:58.8%;top:5.2%;width:7.6%;height:2.6%"></button>
                 <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:66.8%;top:5.2%;width:4.8%;height:2.6%"></button>
                 <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:74.5%;top:4.0%;width:8.0%;height:4.6%"></button>
-                <!-- TOP ROW — 3 service categories -->
+                <!-- TOP ROW ï¿½ 3 service categories -->
                 <button class="hotspot" data-page="service" data-service="hand"    aria-label="Hand Services" style="left:22.0%;top:19.5%;width:16.5%;height:33.0%"></button>
                 <button class="hotspot" data-page="service" data-service="foot"    aria-label="Foot Services" style="left:39.0%;top:19.5%;width:15.5%;height:33.0%"></button>
                 <button class="hotspot" data-page="service" data-service="eyelash" aria-label="Eyelash Services" style="left:55.5%;top:19.5%;width:15.0%;height:33.0%"></button>
-                <!-- BOTTOM ROW — 3 service categories -->
+                <!-- BOTTOM ROW ï¿½ 3 service categories -->
                 <button class="hotspot" data-page="service" data-service="wax"     aria-label="Wax Services"              style="left:22.0%;top:57.0%;width:16.5%;height:33.0%"></button>
                 <button class="hotspot" data-page="service" data-service="deluxe"  aria-label="Royale Deluxe Packages"    style="left:39.0%;top:57.0%;width:15.5%;height:33.0%"></button>
                 <button class="hotspot" data-page="service" data-service="kiddie"  aria-label="Kiddie and Other Services" style="left:55.5%;top:57.0%;width:15.0%;height:33.0%"></button>
@@ -133,33 +141,34 @@
         <section class="screen-page" id="page-service" data-page="service">
             <div class="design-canvas wide-page">
                 <img class="page-design" id="serviceDesign" src="assets/references/appointment_HandServices_customer.png" alt="Service booking page">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:4.0%;width:4.0%;height:6.0%"></button>
-                <!-- Navigation (logged-in state) -->
+                
                 <button class="hotspot" data-page="home"         aria-label="Home"        style="left:5.5%;top:5.2%;width:4.2%;height:2.6%"></button>
                 <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:10.2%;top:5.2%;width:4.2%;height:2.6%"></button>
                 <button class="hotspot" data-page="services"     aria-label="Services"    style="left:14.8%;top:5.2%;width:5.0%;height:2.6%"></button>
                 <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:20.2%;top:5.2%;width:7.4%;height:2.6%"></button>
                 <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:28.0%;top:5.2%;width:4.8%;height:2.6%"></button>
                 <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:37.0%;top:4.0%;width:8.0%;height:4.6%"></button>
-                <!-- Booking form overlay — positioned over the white left panel -->
+                
                 <form class="booking-overlay" id="bookingForm" novalidate>
                     <input name="id" type="hidden">
-                    <label>Name<input name="name" type="text" autocomplete="name" required></label>
-                    <label>Email<input name="email" type="email" autocomplete="email" required></label>
-                    <label>Service<select name="service" required></select></label>
-                    <label>Date<input name="date" type="date" required></label>
-                    <label>Time<input name="time" type="time" required></label>
-                    <label>Technician
-                        <select name="technician" required>
-                            <option value="To Be Assigned">To Be Assigned</option>
-                            <option value="Nicole">Nicole</option>
-                            <option value="Anne">Anne</option>
-                            <option value="Mika">Mika</option>
-                        </select>
-                    </label>
-                    <label>Notes<textarea name="notes" rows="2" placeholder="e.g. Preferred color: nude gold."></textarea></label>
-                    <div class="form-message" id="bookingMessage" role="alert"></div>
-                    <button type="submit" class="booking-submit">Confirm Booking</button>
+                    <div class="custom-form-container">
+                        <label>Name<input name="name" type="text" autocomplete="name" required></label>
+                        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+                        <label>Select Service<select name="service" required></select></label>
+                        <label>Select Date<input name="date" type="date" required></label>
+                        <label>Select Time<input name="time" type="time" required></label>
+                        <label>Select Staff
+                            <select name="technician" required>
+                                <option value="To Be Assigned">Choose staff member...</option>
+                                <option value="Nicole">Nicole</option>
+                                <option value="Anne">Anne</option>
+                                <option value="Mika">Mika</option>
+                            </select>
+                        </label>
+                        <label>Notes<textarea name="notes" rows="2" placeholder="e.g. Preferred color: nude gold."></textarea></label>
+                        <div class="form-message" id="bookingMessage" role="alert"></div>
+                        <button type="submit" class="booking-submit">Confirm Booking</button>
+                    </div>
                 </form>
             </div>
         </section>
@@ -177,7 +186,8 @@
                 <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:68.8%;top:6.5%;width:4.8%;height:2.5%"></button>
                 <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:76.0%;top:5.2%;width:7.5%;height:4.8%"></button>
                 <!-- Dynamic profile data overlays -->
-                <div class="profile-name"  id="profileName"></div>
+                <div class="user-status-banner profile-status-banner"></div>
+                <div class="profile-name" id="profileName"></div>
                 <div class="profile-email" id="profileEmail"></div>
                 <div class="appointments-overlay" id="appointmentsTable"></div>
             </div>
@@ -191,4 +201,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
