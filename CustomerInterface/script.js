@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    THE LOUNGE ROYALE — Customer Interface JavaScript
    LocalStorage DB · SessionStorage session · SOAP XML log
    ============================================================ */
@@ -364,28 +364,40 @@ function renderProfile() {
     const user = currentUser();
     if (!user) return;
 
-    const nameEl = $('#profileName');
-    if(nameEl) nameEl.textContent = `HI, ${user.name.split(' ')[0]}!` || 'HI, CUSTOMER!';
+    // Fill name and email into the cover block
+    const nameEl  = $('#profileName');
+    const emailEl = $('#profileEmail');
+    if (nameEl)  nameEl.textContent  = user.name.toUpperCase();
+    if (emailEl) emailEl.textContent = user.email;
 
-    const upcoming = readDB().appointments
-        .filter((a) => a.email === user.email)
-        .sort((a, b) => appointmentDateTime(a) - appointmentDateTime(b))
-        .filter((a) => appointmentDateTime(a) >= new Date() && a.status !== 'Cancelled')
-        .slice(0, 5);
+    // Fetch all non-cancelled appointments for this user
+    const appointments = readDB().appointments
+        .filter((a) => a.email === user.email && a.status !== 'Cancelled')
+        .sort((a, b) => appointmentDateTime(a) - appointmentDateTime(b));
 
     const table = $('#appointmentsTable');
-    if(table) {
-        table.innerHTML = upcoming.length
-            ? upcoming.map((a) =>
-                `<div class="appointment-row" title="${xmlEscape(a.notes || 'No notes')}">` +
-                    `<span>${formatDate(a.date)}</span><span>${formatTime(a.time)}</span>` +
-                    `<span>${xmlEscape(a.service)}</span><span>${xmlEscape(a.technician)}</span>` +
-                    `<span>${xmlEscape(a.status)}</span>` +
-                    `<span><button type="button" data-edit="${a.id}">Edit</button> <button type="button" data-delete="${a.id}">Cancel</button></span>` +
-                `</div>`
-            ).join('')
-            : '<div class="appointment-row"><span colspan="6">No upcoming appointments.</span></div>';
+    if (!table) return;
+
+    const header =
+        '<div class="appt-table-head">'
+        + '<span>Date</span><span>Time</span><span>Service</span>'
+        + '<span>Technician</span><span>Status</span>'
+        + '</div>';
+
+    if (appointments.length === 0) {
+        table.innerHTML = header + '<div class="appt-empty">No appointments yet.</div>';
+        return;
     }
+
+    table.innerHTML = header + appointments.map((a) =>
+        `<div class="appt-row" title="${xmlEscape(a.notes || '')}">`
+        + `<span>${formatDate(a.date)}</span>`
+        + `<span>${formatTime(a.time)}</span>`
+        + `<span>${xmlEscape(a.service)}</span>`
+        + `<span>${xmlEscape(a.technician)}</span>`
+        + `<span>${xmlEscape(a.status)}</span>`
+        + '</div>'
+    ).join('');
 }
 
 function handleProfileAction(event) {

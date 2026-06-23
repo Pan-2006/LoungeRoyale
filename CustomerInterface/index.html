@@ -185,11 +185,17 @@
                 <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:61.2%;top:6.5%;width:7.4%;height:2.5%"></button>
                 <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:68.8%;top:6.5%;width:4.8%;height:2.5%"></button>
                 <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:76.0%;top:5.2%;width:7.5%;height:4.8%"></button>
-                <!-- Dynamic profile data overlays -->
-                <div class="user-status-banner profile-status-banner"></div>
-                <div class="profile-name" id="profileName"></div>
-                <div class="profile-email" id="profileEmail"></div>
-                <div class="appointments-overlay" id="appointmentsTable"></div>
+                <!-- Profile: cover baked-in PNG placeholder text with real data -->
+                <div class="profile-cover-block">
+                    <div class="profile-hello">Hello!,</div>
+                    <div class="profile-name" id="profileName"></div>
+                    <div class="profile-email" id="profileEmail"></div>
+                </div>
+
+                <!-- Appointments: cover entire gold table area with live HTML table -->
+                <div class="appointments-cover" id="appointmentsTable">
+                    <!-- Rows injected by renderProfile() in script.js -->
+                </div>
             </div>
         </section>
 

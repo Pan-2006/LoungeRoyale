@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    THE LOUNGE ROYALE — Customer Interface CSS
    Canva-Faithful Image-Overlay Implementation
    ============================================================ */
@@ -239,6 +239,33 @@ img { display: block; }
     color: transparent;
 }
 .signin-form .overlay-submit:hover { background: transparent; }
+
+/* "No account yet? Sign up" link - in gap between password and Sign In button */
+.signin-register-link {
+    position: absolute;
+    left: 5.25%;
+    top: 65.8%;
+    width: 91.65%;
+    height: auto;
+    background: transparent;
+    border: none;
+    color: var(--gold-light);
+    font-size: clamp(8px, 0.85vw, 13px);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1.4;
+    z-index: 30;
+}
+.signin-register-link span {
+    color: var(--gold);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.signin-register-link:hover span { color: var(--gold-light); }
+
 .signin-form #signinMessage {
     position: absolute;
     left: 5.25%;
@@ -372,33 +399,139 @@ body.is-logged-in .hotspot[data-page="signin"] { display: none;
 
 /* ============================================================
    PROFILE PAGE OVERLAYS
+   Solid cover blocks painted over the PNG's baked-in text.
+   Every element that exists in the PNG must have a matching
+   cover div that is big enough to hide it completely.
    ============================================================ */
 
-/* Customer name — gold/cream large text
-   Background covers the baked-in placeholder name in the PNG */
-/* -- Dynamic User Status Banner -- */
-.user-status-banner {
-    display: none; /* Hidden by default */
+/* -- Dark header cover: hides "Hello!, REGINA..." + email + phone -- */
+.profile-cover-block {
     position: absolute;
     z-index: 20;
-    left: 72%; 
+    left: 3.5%;
+    top: 8.0%;
+    width: 69.5%;          /* matches PNG dark profile panel right edge */
+    height: 27%;           /* covers Hello! + name + email + phone rows */
+    background: #181210;   /* exact dark panel colour from PNG */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2%;
+    pointer-events: none;
+}
+
+.profile-hello {
+    color: rgba(255,255,255,0.55);
+    font-size: clamp(9px, 0.9vw, 14px);
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.profile-name {
+    color: var(--cream);
+    font-size: clamp(14px, 1.8vw, 28px);
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.profile-email {
+    color: rgba(255,255,255,0.75);
+    font-size: clamp(8px, 0.82vw, 12px);
+    margin-top: 4px;
+}
+
+/* -- Gold table cover: hides ALL baked-in table content
+   (headers, sample row, "NO UPCOMING APPOINTMENTS" text) -- */
+.appointments-cover {
+    position: absolute;
+    z-index: 20;
+    left: 3.5%;
+    top: 35.0%;            /* butt against the bottom of the dark cover block */
+    width: 93%;
+    height: 62%;           /* extend to PNG gold panel bottom edge */
+    background: #c8943a;   /* exact gold panel colour from PNG */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -- Table header row -- */
+.appt-table-head {
+    display: grid;
+    grid-template-columns: 20% 12% 26% 22% 20%;
+    padding: 3.5% 3% 2%;
+    font-size: clamp(8px, 0.85vw, 13px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1a0f00;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(0,0,0,0.18);
+}
+
+/* -- Data rows -- */
+.appt-row {
+    display: grid;
+    grid-template-columns: 20% 12% 26% 22% 20%;
+    align-items: center;
+    padding: 2% 3%;
+    font-size: clamp(7px, 0.78vw, 11px);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #1a0f00;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.appt-row:last-child { border-bottom: none; }
+
+/* -- Empty state -- */
+.appt-empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(9px, 0.88vw, 13px);
+    font-weight: 700;
+    color: rgba(26,15,0,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* -- Cancel button -- */
+.appt-cancel-btn {
+    border: 1px solid rgba(20,15,2,0.3);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.28);
+    color: #1a0f00;
+    font-size: inherit;
+    font-weight: 800;
+    padding: 2px 6px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.appt-cancel-btn:hover { background: rgba(255,255,255,0.5); }
+
+/* -- Dynamic User Status Banner (nav bar badge) -- */
+.user-status-banner {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    left: 72%;
     top: 2.0%;
-    background: rgba(17, 17, 17, 0.95);
+    background: rgba(17,17,17,0.95);
     border: 1px solid var(--gold);
     border-radius: 6px;
     padding: 8px 14px;
     min-width: 15%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    pointer-events: none; /* Lets you click through it if needed */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    pointer-events: none;
 }
-
-/* Show the banner when logged in */
 body.is-logged-in .user-status-banner {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
-
 .status-name {
     color: var(--gold);
     font-size: 13px;
@@ -406,68 +539,11 @@ body.is-logged-in .user-status-banner {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
 .status-appt {
     color: var(--cream);
     font-size: 11px;
     font-weight: normal;
     letter-spacing: 0.3px;
-}
-
-/* Email below name — same background cover treatment */
-.profile-email {
-    position: absolute;
-    z-index: 20;
-    left: 4.5%;
-    top: 33.0%;
-    width: 57%;
-    padding: 2px 8px;
-    background: #18120e;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: clamp(8px, 0.85vw, 12px);
-    pointer-events: none;
-}
-
-/* Appointment records table (overlaid on the golden table area) */
-.appointments-overlay {
-    position: absolute;
-    z-index: 20;
-    left: 4.0%;
-    top: 44.5%;
-    width: 92%;
-    height: 50%;
-    color: #1a0f00;
-    font-size: clamp(6px, 0.70vw, 10px);
-    font-weight: 700;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.appointment-row {
-    display: grid;
-    grid-template-columns: 18% 13% 25% 16% 12% 16%;
-    align-items: center;
-    min-height: 26px;
-    gap: 3px;
-    text-transform: uppercase;
-    padding: 2px 4px;
-    border-bottom: 1px solid rgba(20, 10, 0, 0.12);
-}
-.appointment-row:last-child { border-bottom: none; }
-
-.appointment-row button {
-    border: 1px solid rgba(20, 15, 2, 0.3);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.28);
-    color: #1a0f00;
-    font-size: inherit;
-    font-weight: 800;
-    padding: 2px 4px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-.appointment-row button:hover {
-    background: rgba(255, 255, 255, 0.5);
 }
 
 /* ============================================================
