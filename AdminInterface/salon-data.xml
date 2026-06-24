@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE salon SYSTEM "salon.dtd">
+<salon>
+  <name>The Lounge Royale</name>
+  <staff>
+    <employee id="admin-1">
+      <name>Regina Lourine Cruz</name>
+      <email>admin@royale.com</email>
+    </employee>
+  </staff>
+  <clients>
+    <client id="client-1">
+      <name>Edith</name>
+      <email>edith@example.com</email>
+      <appointments>3</appointments>
+    </client>
+  </clients>
+  <bookings>
+    <booking id="booking-1" status="Completed">
+      <clientName>Kian</clientName>
+      <service>Classic Manicure</service>
+      <date>2026-04-29</date>
+    </booking>
+  </bookings>
+</salon>

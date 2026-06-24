@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <salon>
+      <name>The Lounge Royale</name>
+      <staff>
+        <employee id="admin-1">
+          <name>Regina Lourine Cruz</name>
+          <email>admin@royale.com</email>
+        </employee>
+      </staff>
+      <clients></clients>
+      <bookings></bookings>
+    </salon>
+  </soap:Body>
+</soap:Envelope>

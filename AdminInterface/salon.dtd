@@ -1,0 +1,20 @@
+<!ELEMENT salon (name, staff, clients, bookings)>
+<!ELEMENT name (#PCDATA)>
+
+<!ELEMENT staff (employee*)>
+<!ELEMENT employee (name, email)>
+<!ATTLIST employee id CDATA #REQUIRED>
+<!ELEMENT email (#PCDATA)>
+
+<!ELEMENT clients (client*)>
+<!ELEMENT client (name, email, appointments)>
+<!ATTLIST client id CDATA #REQUIRED>
+<!ELEMENT appointments (#PCDATA)>
+
+<!ELEMENT bookings (booking*)>
+<!ELEMENT booking (clientName, service, date)>
+<!ATTLIST booking id CDATA #REQUIRED>
+<!ATTLIST booking status (Completed|Pending|Cancelled) #REQUIRED>
+<!ELEMENT clientName (#PCDATA)>
+<!ELEMENT service (#PCDATA)>
+<!ELEMENT date (#PCDATA)>

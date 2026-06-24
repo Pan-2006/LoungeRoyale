@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – The Lounge Royale</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 4-field layout fits all fields above the PNG's Sign Up button */
+        .signup-form label:nth-of-type(1) { left:37.3%; top:21.5%; width:61.6%; height:3.8%; }
+        .signup-form label:nth-of-type(2) { left:37.3%; top:31.0%; width:61.6%; height:3.8%; }
+        .signup-form label:nth-of-type(3) { left:37.3%; top:40.5%; width:61.6%; height:3.8%; }
+        .signup-form label:nth-of-type(4) { left:37.3%; top:50.0%; width:61.6%; height:3.8%; }
+        .signup-form .overlay-submit      { left:35.3%; top:60.5%; width:63.7%; height:5.6%;
+                                            background:transparent; color:transparent; border:none; }
+        .signup-form .overlay-submit:hover { background:transparent; }
+    </style>
+</head>
+<body>
+
+<div class="design-canvas">
+    <img class="page-design" src="assets/references/signup_signin_customer.png" alt="Register">
+
+    <form class="overlay-form signup-form" action="register.php" method="POST">
+        <label>Name
+            <input type="text" name="name" placeholder="Name" autocomplete="name" required>
+        </label>
+        <label>Email address
+            <input type="email" name="email" placeholder="Email" autocomplete="email" required>
+        </label>
+        <label>Password
+            <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
+        </label>
+        <label>Confirm Password
+            <input type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="new-password" required>
+        </label>
+        <button type="submit" class="overlay-submit">Register</button>
+    </form>
+
+    <!-- Sign In hotspot over the PNG's left-panel button -->
+    <button class="hotspot" style="left:6.6%;top:65.2%;width:21.9%;height:6.6%"
+        onclick="window.location.href='login.html'" aria-label="Sign In"></button>
+</div>
+
+</body>
+</html>

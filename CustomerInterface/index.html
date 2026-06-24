@@ -3,207 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Lounge Royale | Customer Interface</title>
+    <title>The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main id="app">
 
-        <!-- ===== HOME PAGE ===== -->
-        <section class="screen-page active" id="page-home" data-page="home">
-            <div class="design-canvas">
-                <img class="page-design" src="assets/references/home page_customer.png" alt="Home">
-                
-                <div class="auth-patch"></div>
-                <div class="user-status-banner"></div>
+<div class="design-canvas">
+    <img class="page-design" src="assets/references/home page_customer.png" alt="The Lounge Royale">
 
-                <button class="hotspot" data-page="home" style="left:49.8%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="about" style="left:55.2%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="services" style="left:60.8%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="service" data-service="hand" style="left:66.2%;top:1.35%;width:7.4%;height:3.0%"></button>
-                
-                <button class="hotspot" data-page="auth" style="left:76.0%;top:1.35%;width:8.5%;height:7.0%"></button>
-                <button class="hotspot" data-page="signin" style="left:85.0%;top:1.35%;width:8.5%;height:7.0%"></button>
-                <button class="hotspot" data-page="service" data-service="hand" aria-label="Book an appointment" style="left: 41%; top: 70%; width: 18%; height: 8.5%;"></button>
-            </div>
-        </section>
+    <!-- Nav: HOME -->
+    <button class="hotspot" style="left:37.5%;top:1.2%;width:5.5%;height:5%"
+        onclick="window.location.href='index.html'" aria-label="Home"></button>
 
-        <!-- ===== ABOUT US PAGE ===== -->
-        <section class="screen-page" id="page-about" data-page="about">
-            <div class="design-canvas tall-page">
-                <img class="page-design" src="assets/references/about us_customer.png" alt="The Lounge Royale About Us page">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:0.8%;width:9.0%;height:4.8%"></button>
-                <!-- Navigation -->
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:49.8%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:55.2%;top:1.35%;width:5.2%;height:3.0%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:61.6%;top:1.35%;width:7.0%;height:3.0%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:70.5%;top:1.35%;width:10.7%;height:3.0%"></button>
-                <button class="hotspot" data-page="auth"         aria-label="Login/Register" style="left:83.1%;top:0.9%;width:15.8%;height:3.6%"></button>
-                <!-- Real Google Maps location embed -->
-                <div class="about-map-overlay">
-                    <iframe
-                        title="The Lounge Royale location on Google Maps"
-                        src="https://www.google.com/maps?q=The+Lounge+Royale,+20A+Sandoval+Ave,+Pasig,+Metro+Manila&output=embed"
-                        loading="lazy"
-                        allowfullscreen
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-        </section>
+    <!-- Nav: ABOUT -->
+    <button class="hotspot" style="left:43.5%;top:1.2%;width:5.5%;height:5%"
+        onclick="window.location.href='about.html'" aria-label="About"></button>
 
-        <!-- ===== SERVICES PAGE ===== -->
-        <section class="screen-page" id="page-services" data-page="services">
-            <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/services_customer.png" alt="The Lounge Royale services menu">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:3.0%;width:8.5%;height:7.0%"></button>
-                <!-- Navigation -->
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:51.0%;top:5.5%;width:4.1%;height:2.6%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:55.5%;top:5.5%;width:4.1%;height:2.6%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:60.1%;top:5.5%;width:5.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:65.6%;top:5.5%;width:7.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="auth"         aria-label="Login/Register" style="left:91.6%;top:4.5%;width:7.0%;height:4.0%"></button>
-                <!-- Service category columns (clickable) -->
-                <button class="hotspot" data-page="service" data-service="hand"    aria-label="Hand Services"             style="left:9.0%;top:24.0%;width:18.5%;height:68.0%"></button>
-                <button class="hotspot" data-page="service" data-service="foot"    aria-label="Foot Services"             style="left:28.0%;top:24.0%;width:18.5%;height:68.0%"></button>
-                <button class="hotspot" data-page="service" data-service="deluxe"  aria-label="Royale Deluxe Packages"   style="left:47.0%;top:24.0%;width:19.0%;height:68.0%"></button>
-                <button class="hotspot" data-page="service" data-service="wax"     aria-label="Wax Services"             style="left:67.5%;top:24.0%;width:10.5%;height:68.0%"></button>
-                <button class="hotspot" data-page="service" data-service="eyelash" aria-label="Eyelash Services"         style="left:79.0%;top:24.0%;width:10.0%;height:68.0%"></button>
-                <button class="hotspot" data-page="service" data-service="kiddie"  aria-label="Kiddie and Other Services" style="left:89.5%;top:24.0%;width:9.5%;height:68.0%"></button>
-            </div>
-        </section>
+    <!-- Nav: SERVICES -->
+    <button class="hotspot" style="left:49.5%;top:1.2%;width:6.5%;height:5%"
+        onclick="window.location.href='login.html'" aria-label="Services"></button>
 
-        <!-- ===== SIGN UP / REGISTER PAGE ===== -->
-        <section class="screen-page" id="page-auth" data-page="auth">
-            <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/signup_signin_customer.png" alt="Customer sign up and sign in page">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:5.0%;top:6.5%;width:17.0%;height:24.0%"></button>
-                <!-- Sign-up form overlaid on the right panel -->
-                <form class="overlay-form signup-form" id="signupForm" novalidate>
-                    <label>Full Name<input name="name" type="text" autocomplete="name" required></label>
-                    <label>Email Address<input name="email" type="email" autocomplete="email" required></label>
-                    <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" required></label>
-                    <div class="form-message" id="signupMessage" role="alert"></div>
-                    <button type="submit" class="overlay-submit">Sign Up</button>
-                </form>
-                <!-- Link to sign in -->
-                <button class="hotspot" data-page="signin" aria-label="Sign in to existing account" style="left:6.6%;top:65.2%;width:21.9%;height:6.6%"></button>
-            </div>
-        </section>
+    <!-- Nav: APPOINTMENT -->
+    <button class="hotspot" style="left:56.5%;top:1.2%;width:8.5%;height:5%"
+        onclick="window.location.href='login.html'" aria-label="Appointment"></button>
 
-        <!-- ===== SIGN IN PAGE ===== -->
-        <section class="screen-page" id="page-signin" data-page="signin">
-            <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/signin_customer.png" alt="Sign in to your Lounge Royale account">
+    <!-- LOGIN/REGISTER gold pill top right -->
+    <button class="hotspot" style="left:63.5%;top:0.8%;width:19%;height:5.5%"
+        onclick="window.location.href='register.html'" aria-label="Login or Register"></button>
 
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home"
-                        style="left:8.0%;top:5.0%;width:13.0%;height:25.0%"></button>
+    <!-- BOOK YOUR APPOINTMENT HERE hero button -->
+    <button class="hotspot" style="left:4.0%;top:26.5%;width:31%;height:6%"
+        onclick="window.location.href='register.html'" aria-label="Book Appointment"></button>
 
-                <form class="overlay-form signin-form" id="signinForm" novalidate>
-                    <label>Email address or username
-                        <input name="email" type="email" autocomplete="email" required>
-                    </label>
-                    <label>Password
-                        <input name="password" type="password" autocomplete="current-password" required>
-                    </label>
-                    <button type="button" class="signin-register-link" data-page="auth" aria-label="Go to the registration page">
-                        No account yet? <span>Sign up</span>
-                    </button>
-                    <div class="form-message" id="signinMessage" role="alert"></div>
-                    <button type="submit" class="overlay-submit">Sign In</button>
-                </form>
-            </div>
-        </section>
+    <!-- NAIL CARE card -->
+    <button class="hotspot" style="left:1.8%;top:54%;width:18%;height:23%"
+        onclick="window.location.href='login.html'" aria-label="Nail Care"></button>
 
-        <!-- ===== APPOINTMENT CATEGORY SELECTION ===== -->
-        <section class="screen-page" id="page-appointments" data-page="appointments">
-            <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/APPOINTMENT PAGE_customer.png" alt="Customer appointment service selection">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:4.0%;width:8.5%;height:7.0%"></button>
-                <!-- Navigation (logged-in state) -->
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:44.4%;top:5.2%;width:4.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:48.9%;top:5.2%;width:4.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:53.3%;top:5.2%;width:5.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:58.8%;top:5.2%;width:7.6%;height:2.6%"></button>
-                <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:66.8%;top:5.2%;width:4.8%;height:2.6%"></button>
-                <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:74.5%;top:4.0%;width:8.0%;height:4.6%"></button>
-                <!-- TOP ROW � 3 service categories -->
-                <button class="hotspot" data-page="service" data-service="hand"    aria-label="Hand Services" style="left:22.0%;top:19.5%;width:16.5%;height:33.0%"></button>
-                <button class="hotspot" data-page="service" data-service="foot"    aria-label="Foot Services" style="left:39.0%;top:19.5%;width:15.5%;height:33.0%"></button>
-                <button class="hotspot" data-page="service" data-service="eyelash" aria-label="Eyelash Services" style="left:55.5%;top:19.5%;width:15.0%;height:33.0%"></button>
-                <!-- BOTTOM ROW � 3 service categories -->
-                <button class="hotspot" data-page="service" data-service="wax"     aria-label="Wax Services"              style="left:22.0%;top:57.0%;width:16.5%;height:33.0%"></button>
-                <button class="hotspot" data-page="service" data-service="deluxe"  aria-label="Royale Deluxe Packages"    style="left:39.0%;top:57.0%;width:15.5%;height:33.0%"></button>
-                <button class="hotspot" data-page="service" data-service="kiddie"  aria-label="Kiddie and Other Services" style="left:55.5%;top:57.0%;width:15.0%;height:33.0%"></button>
-            </div>
-        </section>
+    <!-- FOOT SPA card -->
+    <button class="hotspot" style="left:20.5%;top:54%;width:18%;height:23%"
+        onclick="window.location.href='login.html'" aria-label="Foot Spa"></button>
 
-        <!-- ===== SERVICE BOOKING PAGE (shared, image swaps per service) ===== -->
-        <section class="screen-page" id="page-service" data-page="service">
-            <div class="design-canvas wide-page">
-                <img class="page-design" id="serviceDesign" src="assets/references/appointment_HandServices_customer.png" alt="Service booking page">
-                
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:5.5%;top:5.2%;width:4.2%;height:2.6%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:10.2%;top:5.2%;width:4.2%;height:2.6%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:14.8%;top:5.2%;width:5.0%;height:2.6%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:20.2%;top:5.2%;width:7.4%;height:2.6%"></button>
-                <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:28.0%;top:5.2%;width:4.8%;height:2.6%"></button>
-                <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:37.0%;top:4.0%;width:8.0%;height:4.6%"></button>
-                
-                <form class="booking-overlay" id="bookingForm" novalidate>
-                    <input name="id" type="hidden">
-                    <div class="custom-form-container">
-                        <label>Name<input name="name" type="text" autocomplete="name" required></label>
-                        <label>Email<input name="email" type="email" autocomplete="email" required></label>
-                        <label>Select Service<select name="service" required></select></label>
-                        <label>Select Date<input name="date" type="date" required></label>
-                        <label>Select Time<input name="time" type="time" required></label>
-                        <label>Select Staff
-                            <select name="technician" required>
-                                <option value="To Be Assigned">Choose staff member...</option>
-                                <option value="Nicole">Nicole</option>
-                                <option value="Anne">Anne</option>
-                                <option value="Mika">Mika</option>
-                            </select>
-                        </label>
-                        <label>Notes<textarea name="notes" rows="2" placeholder="e.g. Preferred color: nude gold."></textarea></label>
-                        <div class="form-message" id="bookingMessage" role="alert"></div>
-                        <button type="submit" class="booking-submit">Confirm Booking</button>
-                    </div>
-                </form>
-            </div>
-        </section>
+    <!-- LASH SERVICES card -->
+    <button class="hotspot" style="left:39.5%;top:54%;width:18%;height:23%"
+        onclick="window.location.href='login.html'" aria-label="Lash Services"></button>
 
-        <!-- ===== CUSTOMER PROFILE PAGE ===== -->
-        <section class="screen-page" id="page-profile" data-page="profile">
-            <div class="design-canvas wide-page">
-                <img class="page-design" src="assets/references/profile.png" alt="Customer profile page">
-                <button class="hotspot logo-hotspot" data-page="home" aria-label="The Lounge Royale logo home" style="left:1.5%;top:4.0%;width:8.5%;height:7.0%"></button>
-                <!-- Navigation (logged-in state) -->
-                <button class="hotspot" data-page="home"         aria-label="Home"        style="left:46.5%;top:6.5%;width:4.2%;height:2.5%"></button>
-                <button class="hotspot" data-page="about"        aria-label="About Us"    style="left:51.2%;top:6.5%;width:4.2%;height:2.5%"></button>
-                <button class="hotspot" data-page="services"     aria-label="Services"    style="left:55.8%;top:6.5%;width:5.0%;height:2.5%"></button>
-                <button class="hotspot" data-page="appointments" aria-label="Appointment" style="left:61.2%;top:6.5%;width:7.4%;height:2.5%"></button>
-                <button class="hotspot" data-page="profile"      aria-label="Profile"     style="left:68.8%;top:6.5%;width:4.8%;height:2.5%"></button>
-                <button class="hotspot" data-page="logout"       aria-label="Log out"     style="left:76.0%;top:5.2%;width:7.5%;height:4.8%"></button>
-                <!-- Profile: cover baked-in PNG placeholder text with real data -->
-                <div class="profile-cover-block">
-                    <div class="profile-hello">Hello!,</div>
-                    <div class="profile-name" id="profileName"></div>
-                    <div class="profile-email" id="profileEmail"></div>
-                </div>
+    <!-- WAXING card -->
+    <button class="hotspot" style="left:58.5%;top:54%;width:18%;height:23%"
+        onclick="window.location.href='login.html'" aria-label="Waxing"></button>
 
-                <!-- Appointments: cover entire gold table area with live HTML table -->
-                <div class="appointments-cover" id="appointmentsTable">
-                    <!-- Rows injected by renderProfile() in script.js -->
-                </div>
-            </div>
-        </section>
+</div>
 
-    </main>
-
-    <!-- Toast notification -->
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-    <script src="script.js"></script>
 </body>
 </html>

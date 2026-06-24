@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Lounge Royale Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-small">THE LOUNGE</span>
+      <span class="brand-main">Royale</span>
+    </div>
+    <nav>
+      <button data-page="home">Home</button>
+      <button data-page="about">About</button>
+      <button data-page="services">Services</button>
+      <button data-page="dashboard">Admin Dashboard</button>
+      <button data-page="bookings">Manage Bookings</button>
+      <button data-page="clients">Manage Clients</button>
+    </nav>
+    <button id="authButton" class="auth-btn" data-page="signup">Login/Register</button>
+  </header>
+
+  <main>
+    <section class="page active home-page" id="page-home">
+      <div class="hero-copy">
+        <h1>Welcome to<br>The Lounge Royale</h1>
+        <p>Experience luxury beauty services in a comfortable and elegant setting.</p>
+        <button class="gold-btn" data-page="signup">Book Your Appointment Here</button>
+      </div>
+      <div class="service-cards">
+        <article><div class="photo nail"></div><h2>Nail Care</h2><p>Classic manicures, premium nail art, and polished care.</p></article>
+        <article><div class="photo foot"></div><h2>Foot Spa</h2><p>Relaxing foot treatments for comfort and renewal.</p></article>
+        <article><div class="photo lash"></div><h2>Lash Services</h2><p>Lightweight, elegant lashes tailored to your style.</p></article>
+        <article><div class="photo wax"></div><h2>Waxing</h2><p>Smooth, confident skin with gentle waxing services.</p></article>
+      </div>
+    </section>
+
+    <section class="page about-page" id="page-about">
+      <h1>About Us</h1>
+      <h2>Welcome!</h2>
+      <p>Welcome to The Lounge Royale, your ultimate destination for elegance and self-care. Designed for those who appreciate beauty and relaxation, our salon offers a royal pampering experience in a lounge-like atmosphere where you can unwind, refresh, and feel your best.</p>
+      <h2>Frequently Asked Questions (FAQs)</h2>
+      <div class="faq-grid">
+        <article><h3>What services does The Lounge Royale offer?</h3><p>We offer nail care, nail art, lash services, foot spa, and waxing treatments.</p></article>
+        <article><h3>Do I need an appointment before visiting?</h3><p>Appointments are recommended, but walk-ins are welcome depending on availability.</p></article>
+        <article><h3>What products do we use?</h3><p>We use quality, skin-friendly products for safe and long-lasting beauty care.</p></article>
+        <article><h3>Where are you located?</h3><p>20A Sandoval Ave, beside House of Dimsum.</p></article>
+      </div>
+      <div class="map-box">
+        <iframe title="The Lounge Royale location" src="https://www.google.com/maps?q=20A%20Sandoval%20Ave%20Pasig&output=embed"></iframe>
+      </div>
+    </section>
+
+    <section class="page services-page" id="page-services">
+      <h1>Services</h1>
+      <div class="menu-grid" id="servicesMenu"></div>
+    </section>
+
+    <section class="page auth-page" id="page-signup">
+      <div class="auth-panel side">
+        <div class="brand big"><span class="brand-small">THE LOUNGE</span><span class="brand-main">Royale</span></div>
+        <h1>Welcome Back!</h1>
+        <p>Sign in if you already have an existing account.</p>
+        <button class="gold-btn" data-page="signin">Sign In</button>
+      </div>
+      <form class="auth-panel form" id="registerForm">
+        <h1>Register an Employee</h1>
+        <label>Name*<input id="regName" type="text" required /></label>
+        <label>Age*<input id="regAge" type="number" min="18" required /></label>
+        <label>Address*<input id="regAddress" type="text" required /></label>
+        <label>Email address*<input id="regEmail" type="email" required /></label>
+        <label>Password*<input id="regPassword" type="password" required /></label>
+        <button class="gold-btn wide" type="submit">Register</button>
+      </form>
+    </section>
+
+    <section class="page signin-page" id="page-signin">
+      <form class="auth-panel form signin-card" id="signinForm">
+        <h1>Sign In To Your Employee Account</h1>
+        <label>Email address/username<input id="loginEmail" type="email" required /></label>
+        <label>Password<input id="loginPassword" type="password" required /></label>
+        <button class="gold-btn wide" type="submit">Sign In</button>
+      </form>
+    </section>
+
+    <section class="page dashboard-page" id="page-dashboard">
+      <h1>Admin Dashboard Overview</h1>
+      <div class="stats-grid">
+        <article><strong id="statBookings">0</strong><span>Total Bookings</span></article>
+        <article><strong id="statClients">0</strong><span>Total Clients</span></article>
+        <article><strong id="statStaff">0</strong><span>Staff Accounts</span></article>
+        <article><strong id="statPending">0</strong><span>Pending</span></article>
+        <article><strong id="statCompleted">0</strong><span>Completed</span></article>
+        <article><strong id="statCancelled">0</strong><span>Cancelled</span></article>
+        <article><strong id="statSales">P0</strong><span>Total Sales</span></article>
+      </div>
+      <div class="action-row">
+        <button class="gold-btn" data-page="staffs">Open Staffs Overview</button>
+        <button id="downloadXml" class="gold-btn" type="button">XML</button>
+        <button id="downloadDtd" class="gold-btn" type="button">DTD</button>
+        <button id="downloadSoap" class="gold-btn" type="button">SOAP</button>
+      </div>
+      <section class="table-card">
+        <h2>Today's Appointment</h2>
+        <table><thead><tr><th>Name</th><th>Time</th><th>Service</th><th>Status</th></tr></thead><tbody id="todayRows"></tbody></table>
+      </section>
+    </section>
+
+    <section class="page staffs-page" id="page-staffs">
+      <h1>Staffs Overview</h1>
+      <div class="staff-layout">
+        <div id="staffCards" class="staff-cards"></div>
+        <section>
+          <h1>Weekly Schedule</h1>
+          <table class="schedule-table"><thead><tr><th>Sunday</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th></tr></thead><tbody id="scheduleRows"></tbody></table>
+        </section>
+      </div>
+    </section>
+
+    <section class="page bookings-page" id="page-bookings">
+      <h1>Manage All Bookings</h1>
+      <label class="filter-row">Filter: <input id="bookingFilter" type="text" placeholder="Type to filter" /></label>
+      <form id="bookingForm" class="inline-form">
+        <input type="hidden" id="bookingId" />
+        <input id="bookingDate" type="date" required />
+        <input id="bookingTime" type="time" required />
+        <input id="bookingName" placeholder="Client name" required />
+        <input id="bookingEmail" type="email" placeholder="Email" required />
+        <select id="bookingService" required></select>
+        <select id="bookingStatus" required><option>Completed</option><option>Pending</option><option>Cancelled</option></select>
+        <button class="gold-btn" type="submit">Save</button>
+      </form>
+      <div class="table-card">
+        <table><thead><tr><th>Date</th><th>Time</th><th>Client Name</th><th>Email</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead><tbody id="bookingRows"></tbody></table>
+      </div>
+    </section>
+
+    <section class="page clients-page" id="page-clients">
+      <h1>Client Database</h1>
+      <form id="clientForm" class="inline-form clients-form">
+        <input type="hidden" id="clientId" />
+        <input id="clientName" placeholder="Name" required />
+        <input id="clientEmail" type="email" placeholder="Email" required />
+        <input id="clientAppointments" type="number" min="0" step="1" placeholder="No. of Appointments" required />
+        <button class="gold-btn" type="submit">Save</button>
+      </form>
+      <div class="table-card">
+        <table><thead><tr><th>Name</th><th>Email</th><th>No. of Appointments</th><th>Actions</th></tr></thead><tbody id="clientRows"></tbody></table>
+      </div>
+    </section>
+
+    <section class="page profile-page" id="page-profile">
+      <div class="profile-card">
+        <p>Hello!,</p>
+        <h1 id="profileName">ADMIN</h1>
+        <span id="profileEmail">admin@royale.com</span>
+        <span id="profilePhone">+639 913 456 7890</span>
+      </div>
+    </section>
+  </main>
+
+  <div id="xmlPreview" class="xml-preview" aria-hidden="true">
+    <div class="xml-preview-box">
+      <div class="xml-preview-head">
+        <h2 id="xmlPreviewTitle">XML Preview</h2>
+        <button id="closeXmlPreview" type="button">Close</button>
+      </div>
+      <pre id="xmlPreviewCode"></pre>
+    </div>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="script.js"></script>
+</body>
+</html>AdminInterface/index.html AdminInterface/salon-data.xml AdminInterface/salon-schema.xsd AdminInterface/salon.dtd AdminInterface/script.js AdminInterface/soap-request.xml AdminInterface/style.css
