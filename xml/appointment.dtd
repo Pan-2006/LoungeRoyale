@@ -1,0 +1,7 @@
+<!ELEMENT appointment (customer, service, technician, date, time, status)>
+<!ELEMENT customer (#PCDATA)>
+<!ELEMENT service (#PCDATA)>
+<!ELEMENT technician (#PCDATA)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT time (#PCDATA)>
+<!ELEMENT status (#PCDATA)>

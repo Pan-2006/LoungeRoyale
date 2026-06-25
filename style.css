@@ -20,11 +20,11 @@
 /* -- Base -- */
 html { 
     background: var(--bg); 
-    overflow: hidden !important;
+    overflow-x: hidden;
 }
 body { 
     margin: 0; min-height: 100vh; background: var(--bg);
-    color: var(--cream); font-family: var(--font); overflow-x: hidden !important; 
+    color: var(--cream); font-family: var(--font); overflow-x: hidden; 
 }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
@@ -61,6 +61,121 @@ img { display: block; }
 }
 
 .page-design { width: 100%; height: auto; pointer-events: none; }
+.page-frame {
+    position: relative;
+    width: min(100%, 1366px);
+    margin: 0 auto;
+    background: #282626;
+}
+.page-frame.page-wide {
+    min-height: 100vh;
+}
+.page-frame .page-design {
+    width: 100%;
+    height: auto;
+}
+.page-frame.page-wide .page-design {
+    min-height: 100vh;
+    object-fit: contain;
+}
+.overlay-link,
+.overlay-button {
+    position: absolute;
+    z-index: 60;
+    display: block;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    text-decoration: none;
+}
+.overlay-link:focus-visible,
+.overlay-button:focus-visible {
+    outline: 2px solid rgba(242, 217, 141, 0.55);
+    outline-offset: -2px;
+}
+.canva-input {
+    position: absolute;
+    z-index: 55;
+    border: 0;
+    background: transparent;
+    color: #fff8e7;
+    outline: none;
+    font-size: clamp(10px, 1.15vw, 16px);
+    padding: 0 1.1%;
+}
+.canva-input:focus {
+    box-shadow: inset 0 0 0 2px rgba(242, 217, 141, 0.35);
+    border-radius: 4px;
+}
+.register-switch {
+    position: absolute;
+    z-index: 62;
+    left: 40.5%;
+    top: 79.3%;
+    width: 19%;
+    height: 4%;
+}
+.signup-hidden {
+    display: none;
+}
+
+.booking-page-form {
+    position: absolute;
+    z-index: 65;
+    left: 14.6%;
+    top: 15.2%;
+    width: 34.7%;
+    height: 78.5%;
+}
+.booking-page-form select,
+.booking-page-form input {
+    position: absolute;
+    width: 100%;
+    height: 3.0%;
+    min-height: 18px;
+    border: 1px solid #d6d6d6;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.96);
+    color: #111;
+    font-size: clamp(7px, 0.62vw, 10px);
+    padding: 0 0.8%;
+}
+.booking-page-form select[name="service_id"] { top: 4.3%; }
+.booking-page-form select[name="staff_id"] { top: 11.2%; }
+.booking-page-form input[name="date"] { top: 22.0%; height: 7.8%; }
+.booking-page-form input[name="time"] { top: 75.0%; height: 3.5%; }
+.booking-page-form button {
+    position: absolute;
+    left: -1.9%;
+    top: 91.6%;
+    width: 103.8%;
+    height: 4.9%;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+}
+
+.about-map-overlay {
+    position: absolute;
+    left: 65.7%;
+    top: 55.5%;
+    width: 28.7%;
+    height: 30.9%;
+    z-index: 100;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #eef1ee;
+}
+
+.about-map-overlay iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
 
 /* -- Hotspots (Invisible Buttons) -- */
 .hotspot {

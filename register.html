@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - The Lounge Royale</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="customer-page register-page">
+    <main class="page-frame page-wide">
+        <img class="page-design" src="assets/references/signup_signin_customer.png" alt="Create a Lounge Royale customer account">
+
+        <a class="overlay-link" href="index.html" aria-label="Home" style="left:11.2%;top:5.0%;width:13.5%;height:25.2%"></a>
+        <a class="overlay-link" href="login.html" aria-label="Sign In" style="left:6.6%;top:65.1%;width:22.0%;height:7.2%"></a>
+        <form action="register.php" method="POST" onsubmit="this.confirm_password.value=this.password.value">
+            <input class="canva-input" style="left:37.4%;top:25.1%;width:61.7%;height:4.6%" type="text" name="name" autocomplete="name" required aria-label="Name">
+            <input class="canva-input" style="left:37.4%;top:36.8%;width:61.7%;height:4.6%" type="email" name="email" autocomplete="email" required aria-label="Email address">
+            <input class="canva-input" style="left:37.4%;top:48.6%;width:61.7%;height:4.6%" type="password" name="password" autocomplete="new-password" minlength="6" required aria-label="Password">
+            <input class="signup-hidden" type="password" name="confirm_password" aria-hidden="true">
+            <button class="overlay-button" style="left:35.4%;top:65.1%;width:63.6%;height:7.2%" type="submit" aria-label="Sign Up"></button>
+        </form>
+    </main>
+</body>
+</html>

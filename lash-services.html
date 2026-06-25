@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lash Services - The Lounge Royale</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="customer-page booking-page">
+    <main class="page-frame page-wide">
+        <img class="page-design" src="assets/references/appointment_EyelashServices_customer.png" alt="Lash services appointment page">
+        <a class="overlay-link" href="index.html" aria-label="Home" style="left:9.7%;top:3.8%;width:4.4%;height:4.3%"></a>
+        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:15.1%;top:3.8%;width:5.3%;height:4.3%"></a>
+        <a class="overlay-link" href="services.html" aria-label="Services" style="left:21.5%;top:3.8%;width:6.3%;height:4.3%"></a>
+        <a class="overlay-link" href="appointment.html" aria-label="Appointment" style="left:30.5%;top:3.8%;width:10.9%;height:4.3%"></a>
+        <a class="overlay-link" href="profile.html" aria-label="Profile" style="left:43.1%;top:3.8%;width:6.5%;height:4.3%"></a>
+        <a class="overlay-link" href="logout.php" aria-label="Logout" style="left:50.3%;top:1.6%;width:14.9%;height:6.9%"></a>
+        <form class="booking-page-form" action="confirm_booking.php" method="POST">
+            <select name="service_id" required aria-label="Select lash service">
+                <option value="">Choose a service...</option>
+                <option value="9">Eyelash Perming</option>
+                <option value="10">Eyelash Extension</option>
+                <option value="11">Eyelash Retouch</option>
+            </select>
+            <select name="staff_id" required aria-label="Select staff">
+                <option value="">Choose staff member...</option>
+                <option value="1">Any available staff</option>
+            </select>
+            <input type="date" name="date" required aria-label="Select date">
+            <input type="time" name="time" min="09:00" max="17:00" required aria-label="Select time">
+            <button type="submit" aria-label="Confirm booking"></button>
+        </form>
+    </main>
+</body>
+</html>

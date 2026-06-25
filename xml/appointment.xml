@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE appointment SYSTEM "appointment.dtd">
+
+<appointment>
+    <customer>Regina Cruz</customer>
+    <service>Classic Manicure</service>
+    <technician>Nicole</technician>
+    <date>2026-06-20</date>
+    <time>11:00</time>
+    <status>Confirmed</status>
+</appointment>
