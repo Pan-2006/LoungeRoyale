@@ -5,16 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register – The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* 4-field layout fits all fields above the PNG's Sign Up button */
-        .signup-form label:nth-of-type(1) { left:37.3%; top:21.5%; width:61.6%; height:3.8%; }
-        .signup-form label:nth-of-type(2) { left:37.3%; top:31.0%; width:61.6%; height:3.8%; }
-        .signup-form label:nth-of-type(3) { left:37.3%; top:40.5%; width:61.6%; height:3.8%; }
-        .signup-form label:nth-of-type(4) { left:37.3%; top:50.0%; width:61.6%; height:3.8%; }
-        .signup-form .overlay-submit      { left:35.3%; top:60.5%; width:63.7%; height:5.6%;
-                                            background:transparent; color:transparent; border:none; }
-        .signup-form .overlay-submit:hover { background:transparent; }
-    </style>
+    <!-- Inline style removed (Bug 5 fix): these positions are now in style.css -->
 </head>
 <body>
 
@@ -29,10 +20,7 @@
             <input type="email" name="email" placeholder="Email" autocomplete="email" required>
         </label>
         <label>Password
-            <input type="password" name="password" placeholder="Password" autocomplete="new-password" required>
-        </label>
-        <label>Confirm Password
-            <input type="password" name="confirm_password" placeholder="Confirm Password" autocomplete="new-password" required>
+            <input type="password" name="password" placeholder="Password" autocomplete="current-password" required>
         </label>
         <button type="submit" class="overlay-submit">Register</button>
     </form>

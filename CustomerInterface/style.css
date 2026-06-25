@@ -18,10 +18,13 @@
 }
 
 /* -- Base -- */
-html { background: var(--bg); }
+html { 
+    background: var(--bg); 
+    overflow: hidden !important;
+}
 body { 
     margin: 0; min-height: 100vh; background: var(--bg);
-    color: var(--cream); font-family: var(--font); overflow-x: hidden; 
+    color: var(--cream); font-family: var(--font); overflow-x: hidden !important; 
 }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
@@ -53,7 +56,7 @@ img { display: block; }
     max-width: 1920px; /* Prevents overstretching on ultrawides */
     margin: 0 auto;
     background: #1a1a1a;
-    overflow: hidden;
+    overflow: hidden !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
@@ -162,48 +165,85 @@ img { display: block; }
     background: linear-gradient(135deg, #fff4c8, #e8b83d 74%);
 }
 
-/* -- Sign-Up form (right panel of signup_signin_customer.png) --
-   Reference design has 3 fields: Name, Email, Password.
-   (No Confirm Password field exists in the Canva mockup.)        */
+/* ============================================================
+   PIXEL-PERFECT TRANSPARENT REGISTER FORM OVERLAY
+   ============================================================ */
+
+/* 1. Expand the form container to fill the entire canvas layer */
 .signup-form {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    padding: 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 9999 !important;
+    pointer-events: none; /* Allows clicks to pass through unassigned background spaces */
+    display: block !important; /* Bypasses flex stack behavior for absolute pinning */
 }
+
+/* 2. Format field wrappers to vanish HTML text labels */
 .signup-form label {
-    position: absolute;
-    display: block;
-    color: transparent;
-    font-size: 0;
-    line-height: 0;
+    position: absolute !important;
+    left: 37.5% !important;   /* Matches the horizontal alignment of the input lanes */
+    width: 61.5% !important;    /* Span width across the input fields */
+    height: 4.8% !important;  /* Vertical box height */
+    pointer-events: auto !important; /* Keeps fields active for typing and clicking */
+    
+    /* Hides the default text labels entirely so only the PNG text remains visible */
+    color: transparent !important;
+    font-size: 0 !important;
 }
-.signup-form label:nth-of-type(1) { left: 37.3%; top: 25.0%; width: 61.6%; height: 4.2%; }
-.signup-form label:nth-of-type(2) { left: 37.3%; top: 37.0%; width: 61.6%; height: 4.2%; }
-.signup-form label:nth-of-type(3) { left: 37.3%; top: 49.0%; width: 61.6%; height: 4.2%; }
+
+/* 3. Snap input frames precisely over the PNG design boxes */
+.signup-form label:nth-of-type(1) { 
+    top: 24.0% !important; /* Drops right into the Name box */
+}
+
+.signup-form label:nth-of-type(2) { 
+    top: 36% !important; /* Drops right into the Email Address box */
+}
+
+.signup-form label:nth-of-type(3) { 
+    top: 47.5% !important; /* Drops right into the Password box */
+}
+
+/* 4. Strip input box aesthetics to complete transparency */
 .signup-form input {
-    height: 100%;
-    min-height: 0;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    color: #fff8e7;
-    font-size: clamp(10px, 1.05vw, 15px);
-    padding: 0 12px;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 12px !important;
+    font-size: clamp(12px, 1.1vw, 16px) !important;
+    color: #fff8e7 !important; /* Keeps text legible only when a user is actively typing */
+    
+    /* Erase all visible borders, outlines, boxes, and default styling */
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    appearance: none;
 }
-.signup-form .overlay-submit {
-    position: absolute;
-    left: 35.3%;
-    top: 65.7%;
-    width: 63.7%;
-    height: 5.6%;
-    min-height: 0;
-    border: 0;
-    border-radius: 10px;
-    background: transparent;
-    color: transparent;
+
+/* 5. Transform the visible REGISTER button into a transparent hotspot */
+.overlay-submit {
+    position: absolute !important;
+    left: 35.5% !important;
+    top: 65% !important;   /* Sits precisely above the gold SIGN UP button graphic */
+    width: 63% !important;
+    height: 7.5% !important;
+    
+    /* Make the button element completely invisible */
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    
+    /* Retain functionality and action indicators */
+    cursor: pointer !important;
+    pointer-events: auto !important;
+    z-index: 10000 !important;
 }
 .signup-form .overlay-submit:hover { background: transparent; }
 .signup-form #signupMessage {
@@ -476,7 +516,7 @@ body.is-logged-in .hotspot[data-page="signin"] { display: none;
 /* -- Table header row -- */
 .appt-table-head {
     display: grid;
-    grid-template-columns: 20% 12% 26% 22% 20%;
+    grid-template-columns: 20% 15% 15% 12% 13% 13%;   /* 6 cols: Service/Tech/Date/Time/Status/Action */
     padding: 3.5% 3% 2%;
     font-size: clamp(8px, 0.85vw, 13px);
     font-weight: 900;
@@ -489,7 +529,7 @@ body.is-logged-in .hotspot[data-page="signin"] { display: none;
 /* -- Data rows -- */
 .appt-row {
     display: grid;
-    grid-template-columns: 20% 12% 26% 22% 20%;
+    grid-template-columns: 20% 15% 15% 12% 13% 13%;   /* matches header */
     align-items: center;
     padding: 2% 3%;
     font-size: clamp(7px, 0.78vw, 11px);
