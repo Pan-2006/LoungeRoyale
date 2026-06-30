@@ -14,7 +14,7 @@ if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "admin") {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Home - The Lounge Royale</title>
 <link rel="stylesheet" href="admin_style.css">
-<link rel="stylesheet" href="admin_overrides.css">
+<link rel="stylesheet" href="admin_overrides.css?v=admin-hand-match-customer">
 </head>
 <body>
 <?php include "navbar.php"; ?>

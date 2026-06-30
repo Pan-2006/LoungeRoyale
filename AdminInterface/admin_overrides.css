@@ -108,11 +108,12 @@ textarea {
 }
 
 .admin-hero-hands {
-  position: absolute;
-  right: 5.5%;
-  top: 70px;
-  width: min(36vw, 620px);
-  z-index: 2;
+  position: absolute !important;
+  right: -28% !important;
+  top: 52.5px !important;
+  width: min(1200vw, 1500px) !important;
+  max-width: none !important;
+  z-index: 2 !important;
 }
 
 .admin-service-preview {
@@ -379,7 +380,7 @@ textarea {
     position: relative;
     right: auto;
     top: auto;
-    width: min(80%, 420px);
+    width: min(92%, 560px);
     margin: 32px auto 0;
   }
 
