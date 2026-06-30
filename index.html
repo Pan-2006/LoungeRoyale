@@ -6,21 +6,77 @@
     <title>The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="customer-page home-page">
-    <main class="page-frame">
-        <img class="page-design" src="assets/references/home page_customer.png" alt="The Lounge Royale customer home page">
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand-link" href="index.html" aria-label="The Lounge Royale home">
+                <img class="brand-logo" src="assets/main logo.png" alt="The Lounge Royale">
+            </a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="appointment.html">Appointment</a>
+                <a href="profile.php" aria-current="page">Profile</a>
+                <a class="nav-button" href="login.html">Login/Register</a>
+            </nav>
+        </header>
 
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:50.1%;top:1.5%;width:4.5%;height:2.6%"></a>
-        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:55.5%;top:1.5%;width:5.4%;height:2.6%"></a>
-        <a class="overlay-link" href="services.html" aria-label="Services" style="left:62.1%;top:1.5%;width:6.2%;height:2.6%"></a>
-        <a class="overlay-link" href="appointment.html" aria-label="Appointment" style="left:71.2%;top:1.5%;width:10.2%;height:2.6%"></a>
-        <a class="overlay-link" href="login.html" aria-label="Login or Register" style="left:83.1%;top:0.9%;width:15.9%;height:3.6%"></a>
+        <main>
+            <section class="hero">
+                <div class="hero-copy">
+                    <h1>Welcome To<br>The Lounge Royale</h1>
+                    <p>Experience luxury beauty services in a comfortable and elegant setting.</p>
+                    <a class="gold-button" href="appointment.html">Book Your Appointment Here</a>
+                </div>
+                <img class="hero-ribbon" src="assets/ribbon_design.png" alt="">
+                <img class="hero-hands" src="assets/hands.png" alt="Elegant manicure hands">
+            </section>
 
-        <a class="overlay-link" href="appointment.html" aria-label="Book your appointment here" style="left:5.6%;top:27.0%;width:36.0%;height:4.8%"></a>
-        <a class="overlay-link" href="hand-services.html" aria-label="Nail care services" style="left:2.4%;top:56.9%;width:21.0%;height:22.0%"></a>
-        <a class="overlay-link" href="foot-services.html" aria-label="Foot spa services" style="left:27.2%;top:56.9%;width:21.0%;height:22.0%"></a>
-        <a class="overlay-link" href="lash-services.html" aria-label="Lash services" style="left:51.9%;top:56.9%;width:21.0%;height:22.0%"></a>
-        <a class="overlay-link" href="wax-services.html" aria-label="Waxing services" style="left:76.5%;top:56.9%;width:21.0%;height:22.0%"></a>
-    </main>
+            <section class="services-preview" aria-label="Featured services">
+                <img class="section-logo" src="assets/logo for home_services.png" alt="The Lounge Royale services">
+                <div class="service-grid">
+                    <article>
+                        <a class="service-card" href="hand-services.html">
+                            <figure>
+                                <img src="assets/hand services.png" alt="Hand services">
+                                <figcaption>Nail Care</figcaption>
+                            </figure>
+                        </a>
+                        <p class="service-note">From classic manicures to gel manicures, we provide flawless, long-lasting nails that elevate your style.</p>
+                    </article>
+                    <article>
+                        <a class="service-card" href="foot-services.html">
+                            <figure>
+                                <img src="assets/foot services.png" alt="Foot spa services">
+                                <figcaption>Foot Spa</figcaption>
+                            </figure>
+                        </a>
+                        <p class="service-note">Unwind with gentle spa treatment that eases tension, improves circulation, and leaves you renewed.</p>
+                    </article>
+                    <article>
+                        <a class="service-card" href="lash-services.html">
+                            <figure>
+                                <img src="assets/lash services.png" alt="Lash services">
+                                <figcaption>Lash Services</figcaption>
+                            </figure>
+                        </a>
+                        <p class="service-note">Enhance your eyes with lightweight, voluminous lashes tailored to your perfect length and style.</p>
+                    </article>
+                    <article>
+                        <a class="service-card" href="wax-services.html">
+                            <figure>
+                                <img src="assets/img design services.png" alt="Wax services">
+                                <figcaption>Waxing</figcaption>
+                            </figure>
+                        </a>
+                        <p class="service-note">Enjoy smooth, silky skin with gentle and effective waxing treatments for a confident glow.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">The Lounge Royale</footer>
+    </div>
 </body>
 </html>

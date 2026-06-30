@@ -6,21 +6,30 @@
     <title>Appointment - The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="customer-page appointment-page">
-    <main class="page-frame page-wide">
-        <img class="page-design" src="assets/references/APPOINTMENT PAGE_customer.png" alt="Select a service for a Lounge Royale appointment">
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:43.8%;top:5.8%;width:4.4%;height:4.3%"></a>
-        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:49.3%;top:5.8%;width:5.3%;height:4.3%"></a>
-        <a class="overlay-link" href="services.html" aria-label="Services" style="left:55.7%;top:5.8%;width:6.3%;height:4.3%"></a>
-        <a class="overlay-link" href="appointment.html" aria-label="Appointments" style="left:64.8%;top:5.8%;width:10.9%;height:4.3%"></a>
-        <a class="overlay-link" href="profile.html" aria-label="Profile" style="left:77.1%;top:5.8%;width:6.5%;height:4.3%"></a>
-        <a class="overlay-link" href="logout.php" aria-label="Logout" style="left:84.5%;top:3.9%;width:15.0%;height:6.9%"></a>
-        <a class="overlay-link" href="hand-services.html" aria-label="Hand services" style="left:21.7%;top:25.7%;width:16.1%;height:33.8%"></a>
-        <a class="overlay-link" href="foot-services.html" aria-label="Foot services" style="left:41.9%;top:25.7%;width:16.1%;height:33.8%"></a>
-        <a class="overlay-link" href="lash-services.html" aria-label="Lash services" style="left:62.1%;top:25.7%;width:16.1%;height:33.8%"></a>
-        <a class="overlay-link" href="wax-services.html" aria-label="Wax services" style="left:21.7%;top:62.8%;width:16.1%;height:33.8%"></a>
-        <a class="overlay-link" href="royale-deluxe-package.html" aria-label="Royale deluxe packages" style="left:41.9%;top:62.8%;width:16.1%;height:33.8%"></a>
-        <a class="overlay-link" href="kiddie-services.html" aria-label="Kiddie and other services" style="left:62.1%;top:62.8%;width:16.1%;height:33.8%"></a>
-    </main>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand-link" href="index.html"><img class="brand-logo" src="assets/main logo.png" alt="The Lounge Royale"></a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="appointment.html" aria-current="page">Appointment</a>
+                <a href="profile.php">Profile</a>
+                <a class="nav-button" href="logout.php">Logout</a>
+            </nav>
+        </header>
+        <main class="appointment-page">
+            <h1 class="appointment-title">Step 1: Select A Service</h1>
+            <section class="appointment-grid">
+                <a class="service-card" href="hand-services.html"><figure><img src="assets/hand services.png" alt="Hand services"><figcaption>Hand Services</figcaption></figure></a>
+                <a class="service-card" href="foot-services.html"><figure><img src="assets/foot services.png" alt="Foot services"><figcaption>Foot Services</figcaption></figure></a>
+                <a class="service-card" href="lash-services.html"><figure><img src="assets/lash services.png" alt="Lash services"><figcaption>Lash Services</figcaption></figure></a>
+                <a class="service-card" href="wax-services.html"><figure><img src="assets/img design services.png" alt="Wax services"><figcaption>Wax Services</figcaption></figure></a>
+                <a class="service-card" href="royale-deluxe-package.html"><figure><img src="assets/royale deluxe package.png" alt="Royale deluxe package"><figcaption>Royale Deluxe Packages</figcaption></figure></a>
+                <a class="service-card" href="kiddie-services.html"><figure><img src="assets/kiddie services & others.png" alt="Kiddie and other services"><figcaption>Kiddie & Other Services</figcaption></figure></a>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

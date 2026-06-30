@@ -6,19 +6,43 @@
     <title>About - The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="customer-page about-page">
-    <main class="page-frame">
-        <img class="page-design" src="assets/references/about us_customer.png" alt="About The Lounge Royale">
-
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:50.1%;top:1.5%;width:4.5%;height:2.6%"></a>
-        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:55.5%;top:1.5%;width:5.4%;height:2.6%"></a>
-        <a class="overlay-link" href="services.html" aria-label="Services" style="left:62.1%;top:1.5%;width:6.2%;height:2.6%"></a>
-        <a class="overlay-link" href="appointment.html" aria-label="Appointment" style="left:71.2%;top:1.5%;width:10.2%;height:2.6%"></a>
-        <a class="overlay-link" href="login.html" aria-label="Login or Register" style="left:83.1%;top:0.9%;width:15.9%;height:3.6%"></a>
-
-        <div class="about-map-overlay" aria-label="The Lounge Royale location map">
-            <iframe title="The Lounge Royale map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=The%20Lounge%20Royale&output=embed"></iframe>
-        </div>
-    </main>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand-link" href="index.html"><img class="brand-logo" src="assets/main logo.png" alt="The Lounge Royale"></a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html" aria-current="page">About</a>
+                <a href="services.html">Services</a>
+                <a href="appointment.html">Appointment</a>
+                <a class="nav-button" href="login.html">Login/Register</a>
+            </nav>
+        </header>
+        <main>
+            <section class="about-hero">
+                <div class="about-copy">
+                    <p class="eyebrow">About Us</p>
+                    <h1 class="page-title">The Lounge Royale</h1>
+                    <p>The Lounge Royale brings luxury beauty care into a calm, elegant salon setting. Our customer experience is built around polished nail care, relaxing foot spa services, lash treatments, waxing, kiddie services, and deluxe packages.</p>
+                    <p>Every visit is designed to feel refined, comfortable, and personal, from the first appointment to the final finish.</p>
+                </div>
+                <figure class="about-photo">
+                    <img src="assets/img design services.png" alt="The Lounge Royale salon interior">
+                </figure>
+            </section>
+            <section class="map-band">
+                <div class="contact-panel">
+                    <h2>Contact</h2>
+                    <p>Visit The Lounge Royale for premium beauty and nail care services.</p>
+                    <p>Open daily for appointments and walk-in inquiries.</p>
+                    <p>Email: loungeroyale@example.com</p>
+                </div>
+                <div class="map-panel">
+                    <iframe title="The Lounge Royale map" loading="lazy" src="https://www.google.com/maps?q=The%20Lounge%20Royale&output=embed"></iframe>
+                </div>
+            </section>
+        </main>
+        <footer class="site-footer">The Lounge Royale</footer>
+    </div>
 </body>
 </html>

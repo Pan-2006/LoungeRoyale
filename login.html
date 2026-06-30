@@ -5,18 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        if (location.protocol === "file:") {
+            location.replace("http://localhost/LoungeRoyale/login.html");
+        }
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(location.search);
+            const error = params.get("error");
+            if (!error) return;
+            const message = document.querySelector("[data-login-message]");
+            if (message) message.textContent = error;
+        });
+    </script>
 </head>
-<body class="customer-page login-page">
-    <main class="page-frame page-wide">
-        <img class="page-design" src="assets/references/signin_customer.png" alt="Sign in to The Lounge Royale">
-
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:9.2%;top:7.1%;width:12%;height:22%"></a>
-        <form action="login.php" method="POST">
-            <input class="canva-input" style="left:5.25%;top:48.1%;width:91.65%;height:4.5%" type="email" name="email" autocomplete="email" required aria-label="Email address or username">
-            <input class="canva-input" style="left:5.25%;top:60.0%;width:91.65%;height:4.5%" type="password" name="password" autocomplete="current-password" required aria-label="Password">
-            <button class="overlay-button" style="left:4.85%;top:69.25%;width:92.35%;height:7.35%" type="submit" aria-label="Sign In"></button>
-        </form>
-        <a class="signin-register-link" href="register.html">No account yet? <span>Sign up</span></a>
+<body class="auth-page">
+    <main class="site-shell">
+        <section class="auth-wrap signin-wrap">
+            <a href="index.html" aria-label="The Lounge Royale home">
+                <img class="auth-logo" src="assets/main logo.png" alt="The Lounge Royale">
+            </a>
+            <h1 class="auth-title">Sign In To Your Account</h1>
+            <form class="auth-card" action="login.php" method="POST">
+                <p class="form-alert" data-login-message></p>
+                <label>Email address/Username
+                    <input type="email" name="email" autocomplete="email" required>
+                </label>
+                <label>Password
+                    <input type="password" name="password" autocomplete="current-password" required>
+                </label>
+                <button class="gold-button" type="submit">Sign In</button>
+                <p class="auth-switch">No account yet? <a href="register.html">Sign up</a></p>
+            </form>
+        </section>
     </main>
 </body>
 </html>

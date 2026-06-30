@@ -1,35 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lash Services - The Lounge Royale</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="customer-page booking-page">
-    <main class="page-frame page-wide">
-        <img class="page-design" src="assets/references/appointment_EyelashServices_customer.png" alt="Lash services appointment page">
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:9.7%;top:3.8%;width:4.4%;height:4.3%"></a>
-        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:15.1%;top:3.8%;width:5.3%;height:4.3%"></a>
-        <a class="overlay-link" href="services.html" aria-label="Services" style="left:21.5%;top:3.8%;width:6.3%;height:4.3%"></a>
-        <a class="overlay-link" href="appointment.html" aria-label="Appointment" style="left:30.5%;top:3.8%;width:10.9%;height:4.3%"></a>
-        <a class="overlay-link" href="profile.html" aria-label="Profile" style="left:43.1%;top:3.8%;width:6.5%;height:4.3%"></a>
-        <a class="overlay-link" href="logout.php" aria-label="Logout" style="left:50.3%;top:1.6%;width:14.9%;height:6.9%"></a>
-        <form class="booking-page-form" action="confirm_booking.php" method="POST">
-            <select name="service_id" required aria-label="Select lash service">
-                <option value="">Choose a service...</option>
-                <option value="9">Eyelash Perming</option>
-                <option value="10">Eyelash Extension</option>
-                <option value="11">Eyelash Retouch</option>
-            </select>
-            <select name="staff_id" required aria-label="Select staff">
-                <option value="">Choose staff member...</option>
-                <option value="1">Any available staff</option>
-            </select>
-            <input type="date" name="date" required aria-label="Select date">
-            <input type="time" name="time" min="09:00" max="17:00" required aria-label="Select time">
-            <button type="submit" aria-label="Confirm booking"></button>
-        </form>
-    </main>
-</body>
-</html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Lash Services - The Lounge Royale</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="site-shell">
+<header class="site-header"><a class="brand-link" href="index.html"><img class="brand-logo" src="assets/main logo.png" alt="The Lounge Royale"></a><nav class="main-nav"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="appointment.html">Appointment</a><a href="profile.php">Profile</a><a class="nav-button" href="logout.php">Logout</a></nav></header>
+<main class="booking-layout">
+<form class="booking-panel" action="confirm_booking.php" method="POST">
+<label>Select Service<select name="service_id" required><option value="">Choose a service...</option><option value="9">Eyelash Perming</option><option value="10">Eyelash Extension</option><option value="11">Eyelash Retouch</option></select></label>
+<label>Select Staff<select name="staff_id" required><option value="">Choose staff member...</option><option value="1">Sabrina Reyes</option><option value="2">Mika Santos</option><option value="3">Angela Cruz</option><option value="4">Janelle Lim</option><option value="5">Rica Mendoza</option><option value="6">Trisha Navarro</option></select></label>
+<label>Select Date<input type="date" name="date" required></label><label>Select Time<select name="time" required><option value="">Choose time...</option><option value="09:00">9:00 AM</option><option value="10:00">10:00 AM</option><option value="11:00">11:00 AM</option><option value="12:00">12:00 PM</option><option value="13:00">1:00 PM</option><option value="14:00">2:00 PM</option><option value="15:00">3:00 PM</option><option value="16:00">4:00 PM</option><option value="17:00">5:00 PM</option></select></label><button class="gold-button" type="submit">Confirm Booking</button>
+</form>
+<aside class="booking-list"><img src="assets/lash services.png" alt="Lash services"><h2>Lash Services</h2><p class="price-item"><span>Eyelash Perming</span><span>P500</span></p><p class="price-item"><span>Eyelash Extension</span><span>P650</span></p><p class="price-item"><span>Eyelash Retouch</span><span>P350</span></p><p class="price-item"><span>Eyelash Removal</span><span>P200</span></p></aside>
+</main></div><script src="booking_availability.js"></script></body></html>

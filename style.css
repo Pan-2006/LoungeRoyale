@@ -1,924 +1,677 @@
-﻿/* ============================================================
-   THE LOUNGE ROYALE — Customer Interface CSS
-   Canva-Faithful Image-Overlay Implementation
-   ============================================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-/* -- Reset -- */
-*, *::before, *::after { box-sizing: border-box; }
-
-/* -- Design tokens -- */
 :root {
-    --bg:         #101010;
-    --gold:       #d6a63d;
-    --gold-light: #f2d98d;
-    --cream:      #f5ecd2;
-    --ink:        #111111;
-    --panel:      rgba(255, 255, 255, 0.93);
-    --font:       Arial, Helvetica, sans-serif;
+    --bg: #272626;
+    --panel: #1f1a1c;
+    --panel-soft: #302d2d;
+    --black: #050505;
+    --gold: #c89432;
+    --gold-light: #ffe08c;
+    --gold-pale: #fff0b8;
+    --text: #fff7dd;
+    --muted: #d9c991;
+    --line: rgba(255, 224, 140, 0.42);
+    --shadow: 0 22px 50px rgba(0, 0, 0, 0.34);
+    --font: Arial, Helvetica, sans-serif;
 }
 
-/* -- Base -- */
-html { 
-    background: var(--bg); 
-    overflow-x: hidden;
-}
-body { 
-    margin: 0; min-height: 100vh; background: var(--bg);
-    color: var(--cream); font-family: var(--font); overflow-x: hidden; 
-}
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-img { display: block; }
-
-/* -- Page switching -- */
-/* -- Page switching with fade-and-rise animation -- */
-@keyframes pageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+html {
+    background: #111;
 }
 
-.screen-page        { display: none; min-height: 100vh; }
-.screen-page.active {
-    display: block;
-    animation: pageEnter 0.45s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-
-/* -- Canvas wrapper (The Large Monitor Fix) -- */
-.design-canvas {
-    position: relative;
-    width: 100%;
-    max-width: 1920px; /* Prevents overstretching on ultrawides */
-    margin: 0 auto;
-    background: #1a1a1a;
-    overflow: hidden !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.page-design { width: 100%; height: auto; pointer-events: none; }
-.page-frame {
-    position: relative;
-    width: min(100%, 1366px);
-    margin: 0 auto;
-    background: #282626;
-}
-.page-frame.page-wide {
+body {
+    margin: 0;
     min-height: 100vh;
+    background: #111;
+    color: var(--text);
+    font-family: var(--font);
 }
-.page-frame .page-design {
-    width: 100%;
-    height: auto;
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: max(0px, calc((100vw - 1920px) / 2));
+    background: #0d0d0d;
+    z-index: -1;
 }
-.page-frame.page-wide .page-design {
-    min-height: 100vh;
-    object-fit: contain;
+
+body::before {
+    left: 0;
 }
-.overlay-link,
-.overlay-button {
-    position: absolute;
-    z-index: 60;
+
+body::after {
+    right: 0;
+}
+
+a {
+    color: inherit;
+}
+
+img {
     display: block;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    color: transparent;
-    cursor: pointer;
+    max-width: 100%;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+.site-shell {
+    width: min(100%, 1920px);
+    min-height: 100vh;
+    margin: 0 auto;
+    background: var(--bg);
+    overflow: hidden;
+}
+
+.site-header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 10px 26px;
+    background: #292828;
+    position: relative;  /* ← add this */
+    z-index: 10;         /* ← add this */
+}
+.brand-link {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
 }
-.overlay-link:focus-visible,
-.overlay-button:focus-visible {
-    outline: 2px solid rgba(242, 217, 141, 0.55);
-    outline-offset: -2px;
-}
-.canva-input {
-    position: absolute;
-    z-index: 55;
-    border: 0;
-    background: transparent;
-    color: #fff8e7;
-    outline: none;
-    font-size: clamp(10px, 1.15vw, 16px);
-    padding: 0 1.1%;
-}
-.canva-input:focus {
-    box-shadow: inset 0 0 0 2px rgba(242, 217, 141, 0.35);
-    border-radius: 4px;
-}
-.register-switch {
-    position: absolute;
-    z-index: 62;
-    left: 40.5%;
-    top: 79.3%;
-    width: 19%;
-    height: 4%;
-}
-.signup-hidden {
-    display: none;
-}
 
-.booking-page-form {
-    position: absolute;
-    z-index: 65;
-    left: 14.6%;
-    top: 15.2%;
-    width: 34.7%;
-    height: 78.5%;
-}
-.booking-page-form select,
-.booking-page-form input {
-    position: absolute;
-    width: 100%;
-    height: 3.0%;
-    min-height: 18px;
-    border: 1px solid #d6d6d6;
-    border-radius: 2px;
-    background: rgba(255,255,255,0.96);
-    color: #111;
-    font-size: clamp(7px, 0.62vw, 10px);
-    padding: 0 0.8%;
-}
-.booking-page-form select[name="service_id"] { top: 4.3%; }
-.booking-page-form select[name="staff_id"] { top: 11.2%; }
-.booking-page-form input[name="date"] { top: 22.0%; height: 7.8%; }
-.booking-page-form input[name="time"] { top: 75.0%; height: 3.5%; }
-.booking-page-form button {
-    position: absolute;
-    left: -1.9%;
-    top: 91.6%;
-    width: 103.8%;
-    height: 4.9%;
-    border: 0;
-    background: transparent;
-    color: transparent;
-    cursor: pointer;
-}
-
-.about-map-overlay {
-    position: absolute;
-    left: 65.7%;
-    top: 55.5%;
-    width: 28.7%;
-    height: 30.9%;
-    z-index: 100;
-    overflow: hidden;
-    border-radius: 12px;
-    background: #eef1ee;
-}
-
-.about-map-overlay iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-/* -- Hotspots (Invisible Buttons) -- */
-.hotspot {
-    position: absolute;
-    background: rgba(255, 0, 0, 0.0); /* Keep 0.0 for invisible */
-    border: none;
-    cursor: pointer;
-    z-index: 50; /* Forces buttons to the top layer */
-}
-.hotspot:hover,
-.hotspot:active,
-.hotspot:focus {
-    background: transparent;
-    outline: none;
-}
-
-.hotspot:focus-visible {
-    outline: 2px solid rgba(242, 217, 141, 0.35);
-    outline-offset: -2px;
-}
-
-/* ============================================================
-   FORM OVERLAYS
-   All forms sit absolutely positioned over the Canva image.
-   Coordinates are tuned to match each reference page.
-   ============================================================ */
-
-/* -- Shared overlay defaults -- */
-.overlay-form,
-.booking-overlay {
-    position: absolute;
-    z-index: 20;
-    display: grid;
-    gap: 1.1%;
-}
-
-.overlay-form label,
-.booking-overlay label {
-    display: grid;
-    gap: 2px;
-    color: var(--gold-light);
-    font-size: clamp(6px, 0.68vw, 10px);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-}
-
-.overlay-form input,
-.booking-overlay input,
-.booking-overlay select,
-.booking-overlay textarea {
-    width: 100%;
-    min-height: 18px;
-    border: 1px solid rgba(242, 217, 141, 0.3);
-    background: rgba(255, 255, 255, 0.95);
-    color: var(--ink);
-    padding: 3px 7px;
-    font-size: clamp(7px, 0.75vw, 11px);
-    outline: none;
-    border-radius: 2px;
-}
-.booking-overlay select  { padding: 2px 6px; }
-.booking-overlay textarea { resize: none; min-height: 32px; }
-
-.overlay-form input:focus,
-.booking-overlay input:focus,
-.booking-overlay select:focus,
-.booking-overlay textarea:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 2px rgba(214, 166, 61, 0.22);
-}
-
-/* -- Form error / status message -- */
-.form-message {
-    display: none;
-    color: #ffe9a4;
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid rgba(242, 217, 141, 0.3);
-    padding: 4px 7px;
-    font-size: clamp(7px, 0.68vw, 10px);
-    line-height: 1.35;
-    border-radius: 2px;
-}
-.form-message.show { display: block; }
-
-/* -- Submit buttons -- */
-.overlay-submit,
-.booking-submit {
-    border: 0;
-    border-radius: 6px;
-    background: linear-gradient(135deg, #fff0b7, #e2ad3f 74%);
-    color: #050505;
-    min-height: 26px;
-    font-size: clamp(7px, 0.72vw, 11px);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-}
-.overlay-submit:hover,
-.booking-submit:hover {
-    background: linear-gradient(135deg, #fff4c8, #e8b83d 74%);
-}
-
-/* ============================================================
-   PIXEL-PERFECT TRANSPARENT REGISTER FORM OVERLAY
-   ============================================================ */
-
-/* 1. Expand the form container to fill the entire canvas layer */
-.signup-form {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 9999 !important;
-    pointer-events: none; /* Allows clicks to pass through unassigned background spaces */
-    display: block !important; /* Bypasses flex stack behavior for absolute pinning */
-}
-
-/* 2. Format field wrappers to vanish HTML text labels */
-.signup-form label {
-    position: absolute !important;
-    left: 37.5% !important;   /* Matches the horizontal alignment of the input lanes */
-    width: 61.5% !important;    /* Span width across the input fields */
-    height: 4.8% !important;  /* Vertical box height */
-    pointer-events: auto !important; /* Keeps fields active for typing and clicking */
-    
-    /* Hides the default text labels entirely so only the PNG text remains visible */
-    color: transparent !important;
-    font-size: 0 !important;
-}
-
-/* 3. Snap input frames precisely over the PNG design boxes */
-.signup-form label:nth-of-type(1) { 
-    top: 24.0% !important; /* Drops right into the Name box */
-}
-
-.signup-form label:nth-of-type(2) { 
-    top: 36% !important; /* Drops right into the Email Address box */
-}
-
-.signup-form label:nth-of-type(3) { 
-    top: 47.5% !important; /* Drops right into the Password box */
-}
-
-/* 4. Strip input box aesthetics to complete transparency */
-.signup-form input {
-    width: 100% !important;
-    height: 100% !important;
-    padding: 0 12px !important;
-    font-size: clamp(12px, 1.1vw, 16px) !important;
-    color: #fff8e7 !important; /* Keeps text legible only when a user is actively typing */
-    
-    /* Erase all visible borders, outlines, boxes, and default styling */
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-/* 5. Transform the visible REGISTER button into a transparent hotspot */
-.overlay-submit {
-    position: absolute !important;
-    left: 35.5% !important;
-    top: 65% !important;   /* Sits precisely above the gold SIGN UP button graphic */
-    width: 63% !important;
-    height: 7.5% !important;
-    
-    /* Make the button element completely invisible */
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    color: transparent !important;
-    font-size: 0 !important;
-    
-    /* Retain functionality and action indicators */
-    cursor: pointer !important;
-    pointer-events: auto !important;
-    z-index: 10000 !important;
-}
-.signup-form .overlay-submit:hover { background: transparent; }
-.signup-form #signupMessage {
-    position: absolute;
-    left: 35.3%;
-    top: 73.0%;
-    width: 63.7%;
-}
-
-/* -- Sign-In form (signin_customer.png) -- */
-.signin-form {
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    padding: 0;
-}
-.signin-form label {
-    position: absolute;
-    display: block;
-    color: transparent;
-    font-size: 0;
-    line-height: 0;
-}
-.signin-form label:nth-of-type(1) { left: 5.25%; top: 47.8%; width: 91.65%; height: 4.7%; }
-.signin-form label:nth-of-type(2) { left: 5.25%; top: 59.9%; width: 91.65%; height: 4.7%; }
-.signin-form input {
-    height: 100%;
-    min-height: 0;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(242, 217, 141, 0.36);
-    color: #fff8e7;
-    font-size: clamp(10px, 1.05vw, 15px);
-    padding: 0 12px;
-}
-.signin-form .overlay-submit {
-    position: absolute;
-    left: 4.85%;
-    top: 69.25%;
-    width: 92.35%;
-    height: 7.35%;
-    min-height: 0;
-    border: 0;
-    border-radius: 22px;
-    background: transparent;
-    color: transparent;
-}
-.signin-form .overlay-submit:hover { background: transparent; }
-
-/* "No account yet? Sign up" link - in gap between password and Sign In button */
-.signin-register-link {
-    position: absolute;
-    left: 5.25%;
-    top: 65.8%;
-    width: 91.65%;
-    height: auto;
-    background: transparent;
-    border: none;
-    color: var(--gold-light);
-    font-size: clamp(8px, 0.85vw, 13px);
-    font-weight: 500;
-    text-align: center;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1.4;
-    z-index: 30;
-}
-.signin-register-link span {
-    color: var(--gold);
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-.signin-register-link:hover span { color: var(--gold-light); }
-
-.signin-form #signinMessage {
-    position: absolute;
-    left: 5.25%;
-    top: 78.0%;
-    width: 91.65%;
-}
-/* -- Booking form (white left panel of every service page) --
-   White panel: left=13.6%, top=13%, width=36.5%, height=81.7%
-   Form sits inside that panel                                    */
-/* -- Authentication State Adjustments -- */
-.auth-patch {
-    display: none; 
-    position: absolute;
-    background: #1a1a1a; /* Covers the Canva text */
-    z-index: 18;
-    left: 70%; 
-    top: 4%;
-    width: 25%;
-    height: 8%;
-}
-
-/* Show the patch and name when logged in */
-body.is-logged-in .auth-patch,
-body.is-logged-in .profile-name { display: block; 
-}
-
-/* Hide Canva sign-in hotspots when logged in */
-body.is-logged-in .hotspot[data-page="signup"],
-body.is-logged-in .hotspot[data-page="signin"] { display: none; 
-}
-.custom-form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-.booking-overlay {
-    position: absolute;
-    left: 13.6%;
-    top: 13.0%;
-    width: 36.5%;
-    height: 81.7%;
-    background: #ffffff; /* Fills panel to block overlapping text */
-    padding: 24px;
-    box-sizing: border-box;
-    display: block;
-    overflow-y: auto;
-    z-index: 20;
-}
-.custom-form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-}
-/* -- The Rebuilt Schedule Design -- */
-.booking-overlay .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.booking-overlay .input-row {
-    flex-direction: row;
-    gap: 15px;
-}
-
-.booking-overlay .half-width {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.booking-overlay label {
-    font-size: 11px;
-    font-weight: 800;
-    color: #1a1a1a;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    pointer-events: auto;
-}
-
-/* Recreating the elegant Canva lines */
-.booking-overlay input,
-.booking-overlay select,
-.booking-overlay textarea {
-    width: 100%;
-    min-height: 36px;
-    background: #fcfcfc;
-    border: 1px solid #cccccc;
-    color: #111111;
-    padding: 8px 10px;
-    font-size: 13px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    outline: none;
-    pointer-events: auto;
-}
-.booking-overlay textarea { 
-    resize: vertical; 
-    min-height: 60px; 
-}
-
-/* Interaction feedback */
-.booking-overlay input:focus,
-.booking-overlay select:focus,
-.booking-overlay textarea:focus {
-    border-color: var(--gold);
-    box-shadow: 0 0 0 2px rgba(214, 166, 61, 0.2);
-}
-
-/* Submit Button styled to match Canva */
-.booking-submit {
-    width: 100%;
-    min-height: 42px;
-    background: linear-gradient(135deg, #fff0b7, #e2ad3f 74%);
-    border: none;
-    border-radius: 6px;
-    color: #050505;
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    margin-top: 10px;
-    pointer-events: auto;
-}
-
-.booking-submit:hover { 
-    opacity: 0.9; 
-}
-
-/* ============================================================
-   PROFILE PAGE OVERLAYS
-   Solid cover blocks painted over the PNG's baked-in text.
-   Every element that exists in the PNG must have a matching
-   cover div that is big enough to hide it completely.
-   ============================================================ */
-
-/* -- Dark header cover: hides "Hello!, REGINA..." + email + phone -- */
-.profile-cover-block {
-    position: absolute;
-    z-index: 20;
-    left: 3.5%;
-    top: 8.0%;
-    width: 69.5%;          /* matches PNG dark profile panel right edge */
-    height: 27%;           /* covers Hello! + name + email + phone rows */
-    background: #181210;   /* exact dark panel colour from PNG */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 2%;
-    pointer-events: none;
-}
-
-.profile-hello {
-    color: rgba(255,255,255,0.55);
-    font-size: clamp(9px, 0.9vw, 14px);
-    font-weight: 400;
-    margin-bottom: 2px;
-}
-
-.profile-name {
-    color: var(--cream);
-    font-size: clamp(14px, 1.8vw, 28px);
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    line-height: 1.1;
-}
-
-.profile-email {
-    color: rgba(255,255,255,0.75);
-    font-size: clamp(8px, 0.82vw, 12px);
-    margin-top: 4px;
-}
-
-/* -- Gold table cover: hides ALL baked-in table content
-   (headers, sample row, "NO UPCOMING APPOINTMENTS" text) -- */
-.appointments-cover {
-    position: absolute;
-    z-index: 20;
-    left: 3.5%;
-    top: 35.0%;            /* butt against the bottom of the dark cover block */
-    width: 93%;
-    height: 62%;           /* extend to PNG gold panel bottom edge */
-    background: #c8943a;   /* exact gold panel colour from PNG */
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* -- Table header row -- */
-.appt-table-head {
-    display: grid;
-    grid-template-columns: 20% 15% 15% 12% 13% 13%;   /* 6 cols: Service/Tech/Date/Time/Status/Action */
-    padding: 3.5% 3% 2%;
-    font-size: clamp(8px, 0.85vw, 13px);
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #1a0f00;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid rgba(0,0,0,0.18);
-}
-
-/* -- Data rows -- */
-.appt-row {
-    display: grid;
-    grid-template-columns: 20% 15% 15% 12% 13% 13%;   /* matches header */
-    align-items: center;
-    padding: 2% 3%;
-    font-size: clamp(7px, 0.78vw, 11px);
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #1a0f00;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-.appt-row:last-child { border-bottom: none; }
-
-/* -- Empty state -- */
-.appt-empty {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(9px, 0.88vw, 13px);
-    font-weight: 700;
-    color: rgba(26,15,0,0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* -- Cancel button -- */
-.appt-cancel-btn {
-    border: 1px solid rgba(20,15,2,0.3);
-    border-radius: 10px;
-    background: rgba(255,255,255,0.28);
-    color: #1a0f00;
-    font-size: inherit;
-    font-weight: 800;
-    padding: 2px 6px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-.appt-cancel-btn:hover { background: rgba(255,255,255,0.5); }
-
-/* -- Dynamic User Status Banner (nav bar badge) -- */
-.user-status-banner {
-    display: none;
-    position: absolute;
-    z-index: 20;
-    left: 72%;
-    top: 2.0%;
-    background: rgba(17,17,17,0.95);
-    border: 1px solid var(--gold);
-    border-radius: 6px;
-    padding: 8px 14px;
-    min-width: 15%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    pointer-events: none;
-}
-body.is-logged-in .user-status-banner {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.status-name {
-    color: var(--gold);
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-.status-appt {
-    color: var(--cream);
-    font-size: 11px;
-    font-weight: normal;
-    letter-spacing: 0.3px;
-}
-
-/* ============================================================
-   INTERACTIVE MAP (About page)
-   ============================================================ */
-.about-map-overlay {
-    position: absolute;
-    left: 65.7%;
-    top: 55.5%;
-    width: 28.7%;
-    height: 30.9%;
-    z-index: 100;
-    overflow: hidden;
-    border-radius: 12px;
-    background: #eef1ee;
-    transform: translateZ(0, -4px);
-}
-
-.about-map-overlay iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
-/* ============================================================
-   TOAST NOTIFICATION
-   ============================================================ */
-.toast {
-    position: fixed; 
-    right: 18px; 
-    bottom: 18px; 
-    z-index: 1000;
-    padding: 11px 16px; 
-    border-radius: 8px; 
-    background: var(--gold);
-    color: #080808; 
-    font-size: 13px; 
-    font-weight: 800;
-    transform: translateY(140%); 
-    opacity: 0; 
-    transition: 0.25s ease;
-}
-.toast.show { 
-    transform: translateY(0); 
-    opacity: 1; 
-}
-
-/* ============================================================
-   RESPONSIVE SCALING
-   On smaller screens the canvas scales down proportionally.
-   Hotspots & overlays are %-based so they scale automatically.
-   ============================================================ */
-@media (max-width: 900px) {
-    .design-canvas { width: 100%; }
-}
-
-@media (max-width: 600px) {
-    .appointment-row {
-        grid-template-columns: 1fr;
-        gap: 2px;
-        padding: 5px 2px;
-        border-bottom: 1px solid rgba(20,10,0,0.18);
-    }
-    .appointments-overlay { font-size: 9px; }
-    .booking-overlay { padding: 3% 4%; }
-}
-/* ============================================================
-   AUTHENTICATION PAGE FIXES
-   Registration keeps its image-aligned overlay. Sign-in is a
-   separate, real HTML page so protected routes always show the
-   intended sign-in design.
-   ============================================================ */
-.signin-page-shell {
-    width: min(1180px, 100%);
-    min-height: 100vh;
-    margin: 0 auto;
-    padding: clamp(28px, 5vw, 72px) clamp(20px, 4vw, 48px);
-    background: #292929;
-    color: #ffe293;
-}
-
-.signin-heading {
-    display: flex;
-    align-items: center;
-    gap: clamp(24px, 5vw, 64px);
-    margin: 0 0 28px;
-}
-
-.signin-logo {
-    width: clamp(100px, 13vw, 145px);
-    max-height: 165px;
+.brand-logo {
+    width: clamp(132px, 9vw, 178px);
+    height: 70px;
     object-fit: contain;
 }
 
-.signin-heading h1 {
-    margin: 0;
-    font-size: clamp(34px, 5vw, 62px);
-    line-height: 1;
+.main-nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2.2vw, 34px);
+}
+
+.main-nav a {
+    color: #f5f0e6;
+    font-size: clamp(13px, 1.2vw, 17px);
+    letter-spacing: 4px;
+    text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
 }
 
-.standalone-signin-form {
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+    color: var(--gold-light);
+}
+
+.nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 15px;
+    background: #ffc05a;
+    color: #040404 !important;
+    font-weight: 900;
+    letter-spacing: 2px !important;
+}
+
+.hero {
+    position: relative;
+    min-height: 660px;
+    padding: 118px 5.6% 90px;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 3;
+    width: min(690px, 58%);
+}
+
+.hero h1,
+.page-title {
+    margin: 0;
+    color: var(--gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(48px, 5.6vw, 76px);
+    line-height: 0.92;
+    font-weight: 500;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.hero p {
+    margin: 24px 0 32px;
+    color: #fff;
+    font-size: clamp(17px, 1.55vw, 22px);
+    line-height: 1.45;
+}
+
+.gold-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    padding: 0 46px;
+    border: 0;
+    border-radius: 13px;
+    background: linear-gradient(90deg, #ffe589, #fff3c7);
+    color: #050505;
+    font-size: clamp(17px, 1.65vw, 24px);
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.hero-ribbon {
+    position: absolute;
+    left: -10%;
+    bottom: -100px;
+    width: 112%;
+    opacity: 0.92;
+    transform: rotate(1deg);
+    z-index: 1;
+}
+
+.hero-hands {
+    position: absolute;
+    right: -28%;
+    top: 52.5px;
+    width: min(1200vw, 1500px);
+    z-index: 2;
+}
+
+.services-preview {
+    padding: 28px 2.4% 76px;
+}
+
+.section-logo {
+    width: clamp(210px, 15vw, 300px);
+    margin: 0 auto 30px;
+}
+
+.service-grid {
     display: grid;
-    gap: 14px;
-    padding: clamp(24px, 4vw, 34px);
-    border-radius: 14px;
-    background: #211d1e;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(28px, 3.8vw, 52px);
 }
 
-.standalone-signin-form label {
-    margin-top: 8px;
-    color: #ffe293;
-    font-size: 15px;
+.service-card {
+    display: block;
+    color: var(--gold-light);
+    text-align: center;
+    text-decoration: none;
+}
+
+.service-card figure {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--black);
+    box-shadow: var(--shadow);
+}
+
+.service-card img {
+    width: 100%;
+    aspect-ratio: 1.12 / 1;
+    object-fit: cover;
+}
+
+.service-card figcaption {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    background: #030303;
+    font-size: clamp(19px, 2vw, 28px);
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.service-note {
+    position: relative;
+    padding-top: 72px;
+    color: var(--gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(16px, 1.35vw, 20px);
+    letter-spacing: 2px;
+    line-height: 1.25;
+    text-align: center;
+}
+
+.service-note::before {
+    content: "*";
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    color: var(--gold-light);
+    font-size: 62px;
+    line-height: 1;
+    transform: translateX(-50%);
+}
+
+.about-hero,
+.services-page,
+.appointment-page,
+.profile-page {
+    padding: 54px 3.5% 72px;
+}
+
+.about-hero {
+    display: grid;
+    grid-template-columns: 1fr 0.92fr;
+    gap: 46px;
+    align-items: center;
+}
+
+.about-copy {
+    padding: 34px;
+}
+
+.eyebrow {
+    margin: 0 0 16px;
+    color: var(--gold-light);
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+}
+
+.about-copy p {
+    color: #f6eddb;
+    font-size: 19px;
+    line-height: 1.65;
+}
+
+.about-photo {
+    border: 6px solid var(--gold);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.about-photo img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+}
+
+.map-band {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr;
+    gap: 36px;
+    padding: 0 3.5% 76px;
+}
+
+.contact-panel,
+.map-panel,
+.auth-card,
+.booking-panel,
+.profile-card {
+    border-radius: 12px;
+    background: var(--panel);
+    box-shadow: var(--shadow);
+}
+
+.contact-panel {
+    padding: 34px;
+}
+
+.contact-panel h2,
+.map-panel h2 {
+    margin: 0 0 18px;
+    color: var(--gold-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.contact-panel p {
+    margin: 10px 0;
+    color: #f7edcf;
+    font-size: 18px;
+}
+
+.map-panel {
+    overflow: hidden;
+}
+
+.map-panel iframe {
+    width: 100%;
+    height: 330px;
+    border: 0;
+}
+
+.service-menu-hero {
+    height: 112px;
+    border-top: 7px solid var(--gold);
+    border-bottom: 7px solid var(--gold);
+    background: url("assets/img design services.png") center / cover;
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: 1.08fr 1fr 1.42fr 0.95fr;
+    gap: 34px;
+    padding-top: 28px;
+}
+
+.price-column h2,
+.booking-list h2 {
+    margin: 0 0 14px;
+    color: var(--gold-light);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    letter-spacing: 10px;
+    text-transform: uppercase;
+}
+
+.price-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 5px 0;
+    color: #fff;
     font-weight: 800;
 }
 
-.standalone-signin-form input {
-    width: 100%;
-    min-height: 46px;
-    padding: 10px 13px;
-    border: 1px solid rgba(214, 166, 61, 0.75);
-    border-radius: 5px;
-    background: #252122;
-    color: #fff;
-    font-size: 16px;
-    outline: none;
+.price-item span:last-child {
+    padding-left: 14px;
+    border-left: 4px solid var(--gold);
 }
 
-.standalone-signin-form input:focus {
-    border-color: #f2d98d;
-    box-shadow: 0 0 0 3px rgba(242, 217, 141, 0.18);
-}
-
-.standalone-signin-submit {
-    min-height: 50px;
-    margin-top: 6px;
-    border: 0;
-    border-radius: 20px;
-    background: #c6912e;
-    color: #fff3c8;
-    font-weight: 900;
-    font-size: 18px;
+.appointment-title {
+    margin: 0 0 26px;
+    color: var(--gold-light);
+    font-size: clamp(40px, 4.8vw, 62px);
+    letter-spacing: 8px;
+    text-align: center;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+}
+
+.appointment-grid {
+    width: min(780px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 54px;
+}
+
+.appointment-grid .service-card figcaption {
+    font-size: 21px;
+}
+
+.booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 0.82fr;
+    gap: 46px;
+    padding: 40px 3.5% 72px;
+}
+
+.booking-panel {
+    padding: 26px;
+    background: #f4f4f4;
+    color: #111;
+}
+
+.booking-panel label {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 15px;
+    color: #161616;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+.booking-panel select,
+.booking-panel input {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid #bdbdbd;
+    border-radius: 3px;
+    background: #fff;
+    color: #111;
+    padding: 8px 10px;
+}
+
+.booking-panel .gold-button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 8px;
+    border-radius: 18px;
+    font-size: 15px;
+}
+
+.booking-list {
+    padding: 24px 28px;
+    background: #050505;
+}
+
+.booking-list .price-item {
+    font-size: 17px;
+}
+
+.auth-page .site-shell {
+    display: grid;
+    place-items: center;
+    padding: 62px 3.2%;
+}
+
+.auth-wrap {
+    width: 100%;
+    display: grid;
+    gap: 32px;
+}
+
+.signin-wrap {
+    max-width: 1060px;
+}
+
+.register-wrap {
+    grid-template-columns: 34% 1fr;
+    max-width: 1120px;
+    align-items: stretch;
+}
+
+.auth-logo {
+    width: 152px;
+    margin: 0 auto 24px;
+}
+
+.auth-title {
+    margin: 0 0 28px;
+    color: var(--gold-light);
+    font-size: clamp(38px, 4.8vw, 58px);
+    letter-spacing: 12px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.auth-card {
+    padding: 42px 28px 32px;
+    background: #211d1f;
+}
+
+.auth-card label {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 26px;
+    color: var(--gold-light);
+    font-weight: 900;
+}
+
+.auth-card input {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #2b2929;
+    color: #fff;
+    padding: 8px 14px;
+}
+
+.auth-card .gold-button {
+    width: 100%;
+    min-height: 56px;
+    border-radius: 22px;
 }
 
 .auth-switch {
-    margin: 4px 0 0;
+    margin: 16px 0 0;
+    color: var(--gold-pale);
     text-align: center;
-    color: #f5ecd2;
 }
 
-.auth-switch button {
-    border: 0;
-    background: transparent;
-    color: #f2d98d;
+.auth-switch a {
+    color: var(--gold-light);
+    font-weight: 900;
+}
+
+.form-alert {
+    min-height: 20px;
+    margin: 0 0 18px;
+    color: #ffdf7e;
     font-weight: 800;
-    text-decoration: underline;
-}
-.appointment-row-empty {
-    grid-template-columns: 1fr;
-}
-
-@media (max-width: 700px) {
-    .signin-heading {
-        align-items: flex-start;
-    }
-    .signin-heading h1 {
-        font-size: clamp(30px, 9vw, 46px);
-    }
-    .signin-logo {
-        width: 84px;
-    }
-}
-
-.signin-brand-mark {
-    flex: 0 0 clamp(100px, 13vw, 145px);
-    min-height: 150px;
-    display: grid;
-    place-content: center;
     text-align: center;
-    border: 2px solid #7547ff;
-    color: #e4b847;
-    background: #141414;
 }
-.signin-brand-mark strong {
-    display: block;
-    font-family: Georgia, serif;
-    font-size: clamp(42px, 6vw, 72px);
-    line-height: 0.85;
+
+.welcome-panel {
+    display: grid;
+    place-items: center;
+    padding: 44px 28px;
+    background: #030303;
+    text-align: center;
 }
-.signin-brand-mark span {
-    display: block;
-    margin-top: 12px;
-    font-family: Georgia, serif;
-    font-size: 14px;
-    line-height: 1.05;
+
+.welcome-panel h1 {
+    margin: 20px 0;
+    color: var(--gold-light);
+    font-size: clamp(34px, 4vw, 52px);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
 }
-@media (max-width: 700px) {
-    .signin-brand-mark {
-        flex-basis: 84px;
-        min-height: 105px;
+
+.welcome-panel p {
+    color: var(--gold-pale);
+    font-size: 22px;
+    line-height: 1.45;
+}
+
+.profile-card {
+    padding: 28px;
+}
+
+.profile-card h1 {
+    margin: 0;
+    color: var(--gold-light);
+    font-size: clamp(34px, 4vw, 48px);
+    letter-spacing: 8px;
+    text-transform: uppercase;
+}
+
+.appointments-table {
+    margin-top: 22px;
+    background: #d2aa67;
+    color: #111;
+}
+
+.appointments-table h2 {
+    margin: 0;
+    padding: 22px 18px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+    font-size: 32px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    padding: 24px 18px;
+    text-align: center;
+}
+
+.table-row strong {
+    font-size: 22px;
+    text-transform: uppercase;
+}
+
+.site-footer {
+    padding: 26px;
+    background: #1d1c1c;
+    color: var(--muted);
+    text-align: center;
+}
+
+.availability-note {
+    margin: 8px 0 0;
+    color: #ffe08c;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+@media (max-width: 900px) {
+    .site-header {
+        height: auto;
+        flex-wrap: wrap;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-left: 0;
+    }
+
+    .hero {
+        padding-top: 70px;
+    }
+
+    .hero-copy {
+        width: 100%;
+    }
+
+    .hero-hands {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: min(70%, 360px);
+        margin: 28px auto 0;
+    }
+
+    .hero-ribbon {
+        width: 120%;
+    }
+
+    .service-grid,
+    .appointment-grid,
+    .price-grid,
+    .about-hero,
+    .map-band,
+    .booking-layout,
+    .register-wrap {
+        grid-template-columns: 1fr;
+    }
+
+    .service-grid,
+    .appointment-grid {
+        max-width: 420px;
+        margin: 0 auto;
     }
 }

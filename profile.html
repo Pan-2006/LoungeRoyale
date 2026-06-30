@@ -2,19 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=profile.php">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - The Lounge Royale</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="customer-page profile-page">
-    <main class="page-frame page-wide">
-        <img class="page-design" src="assets/references/profile.png" alt="Customer profile and confirmed appointments">
-        <a class="overlay-link" href="index.html" aria-label="Home" style="left:43.8%;top:5.8%;width:4.4%;height:4.3%"></a>
-        <a class="overlay-link" href="about.html" aria-label="About Us" style="left:49.3%;top:5.8%;width:5.3%;height:4.3%"></a>
-        <a class="overlay-link" href="services.html" aria-label="Services" style="left:55.7%;top:5.8%;width:6.3%;height:4.3%"></a>
-        <a class="overlay-link" href="appointment.html" aria-label="Appointment" style="left:64.8%;top:5.8%;width:10.9%;height:4.3%"></a>
-        <a class="overlay-link" href="profile.html" aria-label="Profile" style="left:77.1%;top:5.8%;width:6.5%;height:4.3%"></a>
-        <a class="overlay-link" href="logout.php" aria-label="Logout" style="left:84.5%;top:3.9%;width:15.0%;height:6.9%"></a>
-    </main>
+<body>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand-link" href="index.html"><img class="brand-logo" src="assets/main logo.png" alt="The Lounge Royale"></a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="services.html">Services</a>
+                <a href="appointment.html">Appointment</a>
+                <a href="profile.php" aria-current="page">Profile</a>
+                <a class="nav-button" href="logout.php">Logout</a>
+            </nav>
+        </header>
+        <main class="profile-page">
+            <section class="profile-card">
+                <p class="eyebrow">Hello,</p>
+                <h1>Customer Profile</h1>
+                <p>View confirmed appointments and customer details here after login.</p>
+                <div class="appointments-table">
+                    <h2>Confirmed Appointments</h2>
+                    <div class="table-row">
+                        <strong>Date</strong>
+                        <strong>Time</strong>
+                        <strong>Service</strong>
+                        <strong>Technician</strong>
+                        <strong>Status</strong>
+                    </div>
+                    <div class="table-row">
+                        <span>No appointment yet</span>
+                        <span>-</span>
+                        <span>-</span>
+                        <span>-</span>
+                        <span>-</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
